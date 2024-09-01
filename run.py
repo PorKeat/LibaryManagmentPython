@@ -19,13 +19,19 @@ while True:
         break
     else:
         print("Invalid Input Password!")
-phone_number = input("PhoneNumber: ")
+while True:
+    phone_number = input("PhoneNumber: ")
+    if userOne.validatePhoneNumber(phone_number):
+        break
+    else:
+        print("Invalid Input !")
 while True:
     role = int(input("Role [1.Admin 2.Librarian 3.Member]: "))
     if role in [1, 2, 3]:
         break
     else:
         print("Please enter a valid number for role (1, 2, 3)")
+    
 userOne.register(
     username,
     first_name,

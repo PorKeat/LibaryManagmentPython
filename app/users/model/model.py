@@ -43,15 +43,15 @@ class UserModel:
                     if results[8] == 1:
                         print("You are Admin")
                         print("Successfully")
-                        print("User Success:", results)
+                        print("User Success:", results[5])
                     elif results[8] == 2:
                         print("You are Librarian")
                         print("Successfully")
-                        print("User Success:", results)
+                        print("User Success:", results[5])
                     else:
                         print("You are Member")
                         print("Successfully")
-                        print("User Success:", results)
+                        print("User Success:", results[5])
                 else:
                     print("Incorrect Email or Password!")
                     
@@ -75,5 +75,14 @@ class UserModel:
         if not re.search("[0-9]",password):
             return False
         if not re.search("[!@#$%^&*]",password):
+            return False
+        return True
+    
+    def validatePhoneNumber(self,phone_number):
+        if re.search("[A-Z]",phone_number):
+            return False
+        if re.search("[a-z]",phone_number):
+            return False
+        if re.search("[!@#$%^&*]",phone_number):
             return False
         return True
