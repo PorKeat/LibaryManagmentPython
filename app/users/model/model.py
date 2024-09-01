@@ -40,8 +40,18 @@ class UserModel:
                 )
                 results = cursor.fetchone()
                 if results:
-                    print("Successfully")
-                    print("User Success:", results[5])
+                    if results[8] == 1:
+                        print("You are Admin")
+                        print("Successfully")
+                        print("User Success:", results)
+                    elif results[8] == 2:
+                        print("You are Librarian")
+                        print("Successfully")
+                        print("User Success:", results)
+                    else:
+                        print("You are Member")
+                        print("Successfully")
+                        print("User Success:", results)
                 else:
                     print("Incorrect Email or Password!")
                     
