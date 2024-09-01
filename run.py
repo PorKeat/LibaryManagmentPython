@@ -2,54 +2,64 @@ from app.users.model.model import *
 from getpass4 import getpass
 import hashlib
 
-userOne = UserModel() 
+userOne = UserModel()
 
-username = input("Username: ")
-first_name = input("First Name: ")
-last_name = input("Last Name: ")
-while True:
-    email = input("Email: ")
-    if userOne.validateEmail(email):
-        break
-    else:
-        print("Invalid Input Email!")
-while True:
-    password = getpass('Password: ')
-    if userOne.validatePass(password):
-        break
-    else:
-        print("Invalid Input Password!")
-while True:
-    phone_number = input("PhoneNumber: ")
-    if userOne.validatePhoneNumber(phone_number):
-        break
-    else:
-        print("Invalid Input !")
-while True:
-    role = int(input("Role [1.Admin 2.Librarian 3.Member]: "))
-    if role in [1, 2, 3]:
-        break
-    else:
-        print("Please enter a valid number for role (1, 2, 3)")
+# !ADMIN FEATURE
+
+# TODO ListAllUser
+# userOne.listUser()
+
+# TODO Search
+userOne.searchUserByID(5)
+userOne.searchUserByName("mollyshaddy")
+
+# TODO Register
+# username = input("Username: ")
+# first_name = input("First Name: ")
+# last_name = input("Last Name: ")
+# while True:
+#     email = input("Email: ")
+#     if userOne.validateEmail(email):
+#         break
+#     else:
+#         print("Invalid Input Email!")
+# while True:
+#     password = getpass('Password: ')
+#     if userOne.validatePass(password):
+#         break
+#     else:
+#         print("Invalid Input Password!")
+# while True:
+#     phone_number = input("PhoneNumber: ")
+#     if userOne.validatePhoneNumber(phone_number):
+#         break
+#     else:
+#         print("Invalid Input !")
+# while True:
+#     role = int(input("Role [1.Admin 2.Librarian 3.Member]: "))
+#     if role in [1, 2, 3]:
+#         break
+#     else:
+#         print("Please enter a valid number for role (1, 2, 3)")
     
-userOne.register(
-    username,
-    first_name,
-    last_name,
-    email,
-    password,
-    phone_number,
-    role
-)
+# userOne.register(
+#     username,
+#     first_name,
+#     last_name,
+#     email,
+#     password,
+#     phone_number,
+#     role
+# )
 
+# TODO Login
+# email = input("Email: ")
+# password = getpass('Password: ')
 
-email = input("Email: ")
-password = getpass('Password: ')
-
-userOne.login(
-    email,
-    password
-)
+# userOne.login(
+#     email,
+#     password
+# )
 
 # TODO Hashing Password
 # test=b"Pass@12345"

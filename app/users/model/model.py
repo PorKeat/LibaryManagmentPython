@@ -54,7 +54,6 @@ class UserModel:
                         print("User Success:", results[5])
                 else:
                     print("Incorrect Email or Password!")
-                    
         except Exception as e:
             print(f"Error: {e}")
             self.connection.rollback()
@@ -86,3 +85,67 @@ class UserModel:
         if re.search("[!@#$%^&*]",phone_number):
             return False
         return True
+    
+    def listUser(self):
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT Users.user_id, Users.username, Roles.role_name
+                    FROM Users 
+                    JOIN Roles ON Users.role_id = Roles.role_id;
+                    """
+                )
+                results = cursor.fetchall()
+                if results:
+                    for row in results:
+                        print(f"User ID: {row[0]}, Username: {row[1]}, Role: {row[2]}")
+                else:
+                    print("No users found !")
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
+            
+    def searchUserByID(self,id):
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT Users.user_id, Users.username, Roles.role_name
+                    FROM Users
+                    JOIN Roles ON Users.role_id = Roles.role_id
+                    WHERE Users.user_id = %s
+                    """,
+                    (id,)
+                )
+                result = cursor.fetchone()
+                print(result)
+                if result:
+                    print(f"User ID: {result[0]}, Username: {result[1]}, Role: {result[2]}")
+                else:
+                    print("No user found !")
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
+            
+    def searchUserByName(self,name):
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT Users.user_id, Users.username, Roles.role_name
+                    FROM Users
+                    JOIN Roles ON Users.role_id = Roles.role_id
+                    WHERE Users.username = %s
+                    """,
+                    (name,)
+                )
+                result = cursor.fetchone()
+                print(result)
+                if result:
+                    print(f"User ID: {result[0]}, Username: {result[1]}, Role: {result[2]}")
+                else:
+                    print("No user found !")
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
