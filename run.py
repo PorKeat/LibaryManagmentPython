@@ -1,4 +1,4 @@
-from app.users.model.model import *
+from app.admin.model.model import *
 from getpass4 import getpass
 import hashlib
 
