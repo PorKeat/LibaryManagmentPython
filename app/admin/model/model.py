@@ -3,7 +3,7 @@ import re
 import hashlib
 
 class UserModel:
-    def __init__(self) -> None:
+    def __init__(self):
         self.connection = connect
         
     def register(self, username, first_name, last_name, email, password, phone_number,role):
@@ -145,6 +145,61 @@ class UserModel:
                         print(f"User ID: {result[0]}, Username: {result[1]}, Role: {result[2]}")
                 else:
                     print("No user found !")
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
+            
+    def updateUserData(self,username,first_name,last_name,phone_number,id):
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(
+                """
+                SELECT * FROM Users WHERE user_id = %s;
+                """,
+                (id,) 
+                )
+                user = cursor.fetchone()
+                if user:
+                    cursor.execute(
+                        """
+                        UPDATE Users
+                        SET username = %s, first_name = %s, last_name = %s, phone_number = %s
+                        WHERE user_id = %s;
+                        """,
+                        (username, first_name, last_name, phone_number, id)
+                    )
+                    self.connection.commit()
+                    print("User updated successfully !")
+                else:
+                    print("User not found !")
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
+            
+    def upgradeRole(self,role,id):
+        self.listUser()
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(
+                """
+                SELECT * FROM Users WHERE user_id = %s;
+                """,
+                (id,)
+                )
+                user = cursor.fetchone()
+                if user:
+                    cursor.execute(
+                        """
+                        UPDATE Users
+                        SET role_id = %s
+                        WHERE user_id = %s;
+                        """,
+                        (role,id)
+                    )
+                    self.connection.commit()
+                    print("Role upgraded successfully !")
+                else:
+                    print("Failed to upgrade role !")
         except Exception as e:
             print(f"Error: {e}")
             self.connection.rollback()

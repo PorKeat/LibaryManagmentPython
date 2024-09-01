@@ -9,24 +9,37 @@ userOne = UserModel()
 # TODO ListAllUser
 # userOne.listUser()
 
+# TODO Upgrade Role
+id = input("ID to upgrade role: ")
+role = int(input("Role[1.Admin 2.Librarian 3.Member]: "))
+userOne.upgradeRole(id=id,role=role)
+
+# TODO Update
+# id = int(input("ID to update: "))
+# username = input("Username: ")
+# first_name = input("FirstName: ")
+# last_name = input("LastName: ")
+# phone_number = input("PhoneNumber: ")
+# userOne.updateUserData(username, first_name, last_name, phone_number, id)
+
 # TODO Search
-print("""
-      [+] Search User 🔍
-      [1] Search user by id
-      [2] Search user by name
-      """)
-while True:
-    op = int(input("Choose your Option: "))
-    if op == 1:
-        id = int(input("Search ID: "))
-        userOne.searchUserByID(id)
-        break
-    elif op == 2:
-        name = input("Search Name: ")
-        userOne.searchUserByName(name)
-        break
-    else:
-        print("Invalid Input !")
+# print("""
+#       [+] Search User 🔍
+#       [1] Search user by id
+#       [2] Search user by name
+#       """)
+# while True:
+#     op = int(input("Choose your Option: "))
+#     if op == 1:
+#         id = int(input("Search ID: "))
+#         userOne.searchUserByID(id)
+#         break
+#     elif op == 2:
+#         name = input("Search Name: ")
+#         userOne.searchUserByName(name)
+#         break
+#     else:
+#         print("Invalid Input !")
 
 # TODO Register
 # username = input("Username: ")

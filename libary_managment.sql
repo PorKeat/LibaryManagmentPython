@@ -8,6 +8,20 @@ CREATE TABLE Roles (
 -- INSERT INTO Roles (role_name) VALUES ('Librarian');
 -- INSERT INTO Roles (role_name) VALUES ('Member');
 
+-- INSERT INTO genre (genre_name) VALUES ('Romance');
+-- INSERT INTO genre (genre_name) VALUES ('Mystery');
+-- INSERT INTO genre (genre_name) VALUES ('Thriller');
+-- INSERT INTO genre (genre_name) VALUES ('Fantasy');
+-- INSERT INTO genre (genre_name) VALUES ('Science Fiction');
+-- INSERT INTO genre (genre_name) VALUES ('Horror');
+-- INSERT INTO genre (genre_name) VALUES ('Crime/Detective');
+-- INSERT INTO genre (genre_name) VALUES ('Action');
+-- INSERT INTO genre (genre_name) VALUES ('Adventure');
+-- INSERT INTO genre (genre_name) VALUES ('Classic');
+-- INSERT INTO genre (genre_name) VALUES ('Historical Fiction');
+-- INSERT INTO genre (genre_name) VALUES ('Science & Technology');
+
+
 -- TODO Category Table
 CREATE TABLE Genre (
     genre_id SERIAL PRIMARY KEY,
