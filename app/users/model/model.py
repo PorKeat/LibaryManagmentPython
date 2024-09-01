@@ -119,7 +119,6 @@ class UserModel:
                     (id,)
                 )
                 result = cursor.fetchone()
-                print(result)
                 if result:
                     print(f"User ID: {result[0]}, Username: {result[1]}, Role: {result[2]}")
                 else:
@@ -136,14 +135,14 @@ class UserModel:
                     SELECT Users.user_id, Users.username, Roles.role_name
                     FROM Users
                     JOIN Roles ON Users.role_id = Roles.role_id
-                    WHERE Users.username = %s
+                    WHERE Users.username LIKE %s
                     """,
-                    (name,)
+                    (f'%{name}%',)
                 )
-                result = cursor.fetchone()
-                print(result)
-                if result:
-                    print(f"User ID: {result[0]}, Username: {result[1]}, Role: {result[2]}")
+                results = cursor.fetchall()
+                if results:
+                    for result in results:
+                        print(f"User ID: {result[0]}, Username: {result[1]}, Role: {result[2]}")
                 else:
                     print("No user found !")
         except Exception as e:

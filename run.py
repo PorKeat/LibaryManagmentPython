@@ -10,8 +10,23 @@ userOne = UserModel()
 # userOne.listUser()
 
 # TODO Search
-userOne.searchUserByID(5)
-userOne.searchUserByName("mollyshaddy")
+print("""
+      [+] Search User 🔍
+      [1] Search user by id
+      [2] Search user by name
+      """)
+while True:
+    op = int(input("Choose your Option: "))
+    if op == 1:
+        id = int(input("Search ID: "))
+        userOne.searchUserByID(id)
+        break
+    elif op == 2:
+        name = input("Search Name: ")
+        userOne.searchUserByName(name)
+        break
+    else:
+        print("Invalid Input !")
 
 # TODO Register
 # username = input("Username: ")
