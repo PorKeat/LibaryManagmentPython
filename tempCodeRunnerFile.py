@@ -1,11 +1,7 @@
-test=b"Pass@12345"
-sha256 = hashlib.sha256()
-sha256.update(test)
-string_hash = sha256.hexdigest()
-print(f"Hash:{string_hash}")
-password = input("Password: ")
-encoded_password = password.encode()
-passWord = hashlib.sha256()
-passWord.update(encoded_password)
-hashedPass = passWord.hexdigest()
-print(f"Hash:{hashedPass}")
+email = input("Email: ")
+password = getpass('Password: ')
+
+user.login(
+    email,
+    password
+)

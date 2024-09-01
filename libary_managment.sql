@@ -4,21 +4,14 @@ CREATE TABLE Roles (
     role_name VARCHAR(20)
 );
 
-INSERT INTO Roles (role_name) VALUES ('Admin');
-INSERT INTO Roles (role_name) VALUES ('Librarian');
-INSERT INTO Roles (role_name) VALUES ('Member');
-
-
--- TODO Authors Table
-CREATE TABLE Authors (
-    author_id INT PRIMARY KEY,
-    author_name VARCHAR(50)
-);
+-- INSERT INTO Roles (role_name) VALUES ('Admin');
+-- INSERT INTO Roles (role_name) VALUES ('Librarian');
+-- INSERT INTO Roles (role_name) VALUES ('Member');
 
 -- TODO Category Table
-CREATE TABLE Categories (
-    category_id SERIAL PRIMARY KEY,
-    category_name VARCHAR(20)
+CREATE TABLE Genre (
+    genre_id SERIAL PRIMARY KEY,
+    genre_name VARCHAR(20)
 );
 
 -- TODO User Table
@@ -38,16 +31,35 @@ CREATE TABLE Users (
 CREATE TABLE Books (
     book_id SERIAL PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
-    created_at DATE,
+    author_name VARCHAR(100),
+    publisher_name VARCHAR(100),
     copies_available INT,
     year_of_publisher INT,
-    category_id INT REFERENCES Categories(category_id) ON DELETE SET NULL,
-    author_id INT REFERENCES Authors(author_id) ON DELETE SET NULL
+    created_at DATE,
+    genre_id INT REFERENCES Genre(genre_id) ON DELETE SET NULL
 );
+
+CREATE TABLE BorrowedRecord (
+    borrow_record_id SERIAL PRIMARY KEY,
+    borrow_date DATE,
+    due_date DATE,
+    return_date DATE,
+    status VARCHAR(50),
+    user_id INT REFERENCES Users(user_id) ON DELETE SET NULL
+);
+
+CREATE TABLE BorrowedItems (
+    borrow_item_id SERIAL PRIMARY KEY,
+    status VARCHAR(50),
+    quantity INT,
+    borrow_record_id INT REFERENCES BorrowedRecord(borrow_record_id) ON DELETE SET NULL
+);
+
+
 
 -- TODO Publisher Table
 CREATE TABLE Publishers (
-    publisher_id INT PRIMARY KEY,
+    publisher_id SERIAL PRIMARY KEY,
     publisher_name VARCHAR(100),
     address VARCHAR(255),
     phone_number VARCHAR(15)
@@ -55,7 +67,7 @@ CREATE TABLE Publishers (
 
 -- TODO Borrow Table
 CREATE TABLE BorrowedBooks (
-    borrow_id INT PRIMARY KEY,
+    borrow_id SERIAL PRIMARY KEY,
     user_id INT REFERENCES Users(user_id) ON DELETE SET NULL,
     book_id INT REFERENCES Books(book_id) ON DELETE SET NULL,
     borrow_date DATE,
@@ -65,17 +77,26 @@ CREATE TABLE BorrowedBooks (
 
 -- TODO Reservations Table
 CREATE TABLE Reservations (
-    reservation_id INT PRIMARY KEY,
-    user_id INT REFERENCES Users(user_id) ON DELETE SET NULL,
-    book_id INT REFERENCES Books(book_id) ON DELETE SET NULL,
+    reservation_id SERIAL PRIMARY KEY,
     reservation_date DATE,
-    status VARCHAR(50)
+    status VARCHAR(50),
+    user_id INT REFERENCES Users(user_id) ON DELETE SET NULL
 );
+
+CREATE TABLE ReservationItems (
+    reservation_item_id SERIAL PRIMARY KEY,
+    status VARCHAR(50),
+    quantity INT,
+    reservation_id INT REFERENCES Reservations(reservation_id) ON DELETE SET NULL
+);
+
 
 -- TODO Fines Table
 CREATE TABLE Fines (
-    fine_id INT PRIMARY KEY,
-    status VARCHAR(50),
+    fine_id SERIAL PRIMARY KEY,
+    fine_date DATE,
     amount DECIMAL(10, 2),
-    borrow_id INT REFERENCES BorrowedBooks(borrow_id) ON DELETE SET NULL
+    paid_date DATE,
+    status VARCHAR(50),
+    borrow_item_id INT REFERENCES BorrowedItems(borrow_item_id) ON DELETE SET NULL
 );
