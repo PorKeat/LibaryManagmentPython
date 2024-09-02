@@ -1,5 +1,6 @@
 from app.auth.controller.authController import AuthController
 import getpass
+import pwinput
 
 class AuthView:
     def __init__(self):
@@ -13,7 +14,7 @@ class AuthView:
             else:
                 print("Invalid Input Email!")
         while True:
-            password = getpass.getpass('Enter your password: ')
+            password = pwinput.pwinput('Enter your password: ')
             if self.controller.validatePass(password):
                 break
             else:
