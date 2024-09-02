@@ -1,11 +1,11 @@
 from db_connection import connect
-import re
 import hashlib
 
-class UserModel:
+class AdminModel:
     def __init__(self):
         self.connection = connect
         
+    # ! REGISTER
     def register(self, username, first_name, last_name, email, password, phone_number,role):
         encoded_password = password.encode()
         hashPassword = hashlib.sha256()
@@ -25,66 +25,40 @@ class UserModel:
             print(f"Error: {e}")
             self.connection.rollback()
             
-    def login(self, email, password):
-        encoded_password = password.encode()
-        hashPassword = hashlib.sha256()
-        hashPassword.update(encoded_password)
-        hashedPass = hashPassword.hexdigest()
-        try:
-            with self.connection.cursor() as cursor:
-                cursor.execute(
-                """
-                SELECT * FROM users WHERE email = %s AND password = %s
-                """,
-                (email, hashedPass)
-                )
-                results = cursor.fetchone()
-                if results:
-                    if results[8] == 1:
-                        print("You are Admin")
-                        print("Successfully")
-                        print("User Success:", results[5])
-                    elif results[8] == 2:
-                        print("You are Librarian")
-                        print("Successfully")
-                        print("User Success:", results[5])
-                    else:
-                        print("You are Member")
-                        print("Successfully")
-                        print("User Success:", results[5])
-                else:
-                    print("Incorrect Email or Password!")
-        except Exception as e:
-            print(f"Error: {e}")
-            self.connection.rollback()
+    # ! LOGIN
+    # def login(self, email, password):
+    #     encoded_password = password.encode()
+    #     hashPassword = hashlib.sha256()
+    #     hashPassword.update(encoded_password)
+    #     hashedPass = hashPassword.hexdigest()
+    #     try:
+    #         with self.connection.cursor() as cursor:
+    #             cursor.execute(
+    #             """
+    #             SELECT * FROM users WHERE email = %s AND password = %s
+    #             """,
+    #             (email, hashedPass)
+    #             )
+    #             results = cursor.fetchone()
+    #             if results:
+    #                 if results[8] == 1:
+    #                     print("You are Admin")
+    #                     print("Successfully")
+    #                     print("User Success:", results[5])
+    #                 elif results[8] == 2:
+    #                     print("You are Librarian")
+    #                     print("Successfully")
+    #                     print("User Success:", results[5])
+    #                 else:
+    #                     print("You are Member")
+    #                     print("Successfully")
+    #                     print("User Success:", results[5])
+    #             else:
+    #                 print("Incorrect Email or Password!")
+    #     except Exception as e:
+    #         print(f"Error: {e}")
+    #         self.connection.rollback()
             
-    def validateEmail(self,email):
-        if "@" not in email or "gmail" not in email or ".com" not in email:
-            return False
-        else:
-            return True
-    
-    def validatePass(self,password):
-        if len(password) <=5:
-            return False
-        if not re.search("[A-Z]",password):
-            return False
-        if not re.search("[a-z]",password):
-            return False
-        if not re.search("[0-9]",password):
-            return False
-        if not re.search("[!@#$%^&*]",password):
-            return False
-        return True
-    
-    def validatePhoneNumber(self,phone_number):
-        if re.search("[A-Z]",phone_number):
-            return False
-        if re.search("[a-z]",phone_number):
-            return False
-        if re.search("[!@#$%^&*]",phone_number):
-            return False
-        return True
     
     def listUser(self):
         try:

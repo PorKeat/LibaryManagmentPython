@@ -1,8 +1,15 @@
-from app.admin.model.model import *
-from getpass4 import getpass
-import hashlib
+from app.admin.model.adminModel import *
+from app.auth.model.authModel import *
+from app.auth.controller.authController import *
+from app.auth.view.authView import *
+import getpass
 
-userOne = UserModel()
+userOne = AdminModel()
+authModel = AuthModel()
+authController = AuthController()
+authView = AuthView()
+
+authView.login_role()
 
 # !ADMIN FEATURE
 
@@ -10,9 +17,9 @@ userOne = UserModel()
 # userOne.listUser()
 
 # TODO Upgrade Role
-id = input("ID to upgrade role: ")
-role = int(input("Role[1.Admin 2.Librarian 3.Member]: "))
-userOne.upgradeRole(id=id,role=role)
+# id = input("ID to upgrade role: ")
+# role = int(input("Role[1.Admin 2.Librarian 3.Member]: "))
+# userOne.upgradeRole(id=id,role=role)
 
 # TODO Update
 # id = int(input("ID to update: "))
