@@ -2,7 +2,8 @@ from app.admin.model.adminModel import *
 from app.auth.model.authModel import *
 from app.auth.controller.authController import *
 from app.auth.view.authView import *
-import getpass
+
+
 
 userOne = AdminModel()
 authModel = AuthModel()

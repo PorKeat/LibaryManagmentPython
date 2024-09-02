@@ -1,4 +1,5 @@
 from app.auth.controller.authController import AuthController
+import getpass
 
 class AuthView:
     def __init__(self):
@@ -11,7 +12,12 @@ class AuthView:
                 break
             else:
                 print("Invalid Input Email!")
-        password = input("Enter your password: ")
+        while True:
+            password = getpass.getpass('Enter your password: ')
+            if self.controller.validatePass(password):
+                break
+            else:
+                print("Invalid Input Password!")
         status = self.controller.login(email, password)
         if status == 'admin':
             print("You are Admin")
