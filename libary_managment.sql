@@ -4,6 +4,12 @@ CREATE TABLE Roles (
     role_name VARCHAR(20)
 );
 
+-- TODO Category Table
+CREATE TABLE Genre (
+    genre_id SERIAL PRIMARY KEY,
+    genre_name VARCHAR(20)
+);
+
 -- INSERT INTO Roles (role_name) VALUES ('Admin');
 -- INSERT INTO Roles (role_name) VALUES ('Librarian');
 -- INSERT INTO Roles (role_name) VALUES ('Member');
@@ -20,13 +26,6 @@ CREATE TABLE Roles (
 -- INSERT INTO genre (genre_name) VALUES ('Classic');
 -- INSERT INTO genre (genre_name) VALUES ('Historical Fiction');
 -- INSERT INTO genre (genre_name) VALUES ('Science & Technology');
-
-
--- TODO Category Table
-CREATE TABLE Genre (
-    genre_id SERIAL PRIMARY KEY,
-    genre_name VARCHAR(20)
-);
 
 -- TODO User Table
 CREATE TABLE Users (
