@@ -6,24 +6,24 @@ class AdminModel:
         self.connection = connect
         
     # ! REGISTER
-    def register(self, username, first_name, last_name, email, password, phone_number,role):
-        encoded_password = password.encode()
-        hashPassword = hashlib.sha256()
-        hashPassword.update(encoded_password)
-        hashedPass = hashPassword.hexdigest()
-        try:
-            with self.connection.cursor() as cursor:
-                    cursor.execute(
-                    """
-                    INSERT INTO users (username, first_name, last_name, email, password, phone_number, membership_date, role_id)
-                    VALUES (%s, %s, %s, %s, %s, %s, NOW(),%s)
-                    """,
-                    (username, first_name, last_name, email, hashedPass, phone_number,role)
-                )
-            self.connection.commit()
-        except Exception as e:
-            print(f"Error: {e}")
-            self.connection.rollback()
+    # def register(self, username, first_name, last_name, email, password, phone_number,role):
+    #     encoded_password = password.encode()
+    #     hashPassword = hashlib.sha256()
+    #     hashPassword.update(encoded_password)
+    #     hashedPass = hashPassword.hexdigest()
+    #     try:
+    #         with self.connection.cursor() as cursor:
+    #                 cursor.execute(
+    #                 """
+    #                 INSERT INTO users (username, first_name, last_name, email, password, phone_number, membership_date, role_id)
+    #                 VALUES (%s, %s, %s, %s, %s, %s, NOW(),%s)
+    #                 """,
+    #                 (username, first_name, last_name, email, hashedPass, phone_number,role)
+    #             )
+    #         self.connection.commit()
+    #     except Exception as e:
+    #         print(f"Error: {e}")
+    #         self.connection.rollback()
             
     # ! LOGIN
     # def login(self, email, password):
@@ -57,8 +57,7 @@ class AdminModel:
     #                 print("Incorrect Email or Password!")
     #     except Exception as e:
     #         print(f"Error: {e}")
-    #         self.connection.rollback()
-            
+    #         self.connection.rollback() 
     
     def listUser(self):
         try:
