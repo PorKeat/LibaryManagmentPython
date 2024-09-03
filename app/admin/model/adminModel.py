@@ -59,6 +59,7 @@ class AdminModel:
     #         print(f"Error: {e}")
     #         self.connection.rollback() 
     
+    # ! List User
     def listUser(self):
         try:
             with self.connection.cursor() as cursor:
@@ -70,11 +71,8 @@ class AdminModel:
                     """
                 )
                 results = cursor.fetchall()
-                if results:
-                    for row in results:
-                        print(f"User ID: {row[0]}, Username: {row[1]}, Role: {row[2]}")
-                else:
-                    print("No users found !")
+                return results
+
         except Exception as e:
             print(f"Error: {e}")
             self.connection.rollback()
@@ -92,10 +90,7 @@ class AdminModel:
                     (id,)
                 )
                 result = cursor.fetchone()
-                if result:
-                    print(f"User ID: {result[0]}, Username: {result[1]}, Role: {result[2]}")
-                else:
-                    print("No user found !")
+                return result
         except Exception as e:
             print(f"Error: {e}")
             self.connection.rollback()

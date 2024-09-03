@@ -1,4 +1,5 @@
 from app.admin.model.adminModel import *
+from app.admin.view.adminView import *
 from app.auth.model.authModel import *
 from app.auth.controller.authController import *
 from app.auth.view.authView import *
@@ -6,12 +7,16 @@ from app.auth.view.authView import *
 
 
 userOne = AdminModel()
+adminView = AdminView()
 authModel = AuthModel()
 authController = AuthController()
 authView = AuthView()
 
-authView.login_role()
-authView.register_user()
+# authView.login_role()
+# authView.register_user()
+# adminView.show_all_use()
+
+adminView.found_use_by_id()
 
 # !ADMIN FEATURE
 
