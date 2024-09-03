@@ -1,5 +1,6 @@
 from app.auth.model.authModel import AuthModel
 import re
+import hashlib
 
 class AuthController:
     def __init__(self):
@@ -17,6 +18,17 @@ class AuthController:
                 return 'member'
         else:
             return 'error'
+    
+    def register(self, username, first_name, last_name, email, password, phone_number,role):
+        encoded_password = password.encode()
+        hashPassword = hashlib.sha256()
+        hashPassword.update(encoded_password)
+        hashedPass = hashPassword.hexdigest()
+        result = self.user_model.create_user(username, first_name, last_name, email, hashedPass, phone_number,role)
+        if result:
+            print("Register successfully !")
+        else:
+            print("Failed to register")
 
 
     def validateEmail(self,email):

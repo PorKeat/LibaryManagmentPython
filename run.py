@@ -11,6 +11,7 @@ authController = AuthController()
 authView = AuthView()
 
 authView.login_role()
+authView.register_user()
 
 # !ADMIN FEATURE
 

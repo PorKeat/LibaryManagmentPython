@@ -59,13 +59,14 @@ CREATE TABLE BorrowedRecord (
     return_date DATE,
     status VARCHAR(50),
     user_id INT REFERENCES Users(user_id) ON DELETE SET NULL
+    borrow_item_id INT REFERENCES BorrowedItems(borrow_item_id) ON DELETE SET NULL
 );
 
 CREATE TABLE BorrowedItems (
     borrow_item_id SERIAL PRIMARY KEY,
     status VARCHAR(50),
     quantity INT,
-    borrow_record_id INT REFERENCES BorrowedRecord(borrow_record_id) ON DELETE SET NULL
+    book_id INT REFERENCES Books(book_id) ON DELETE SET NULL
 );
 
 
