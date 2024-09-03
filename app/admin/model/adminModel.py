@@ -94,7 +94,7 @@ class AdminModel:
         except Exception as e:
             print(f"Error: {e}")
             self.connection.rollback()
-            
+             
     def searchUserByName(self,name):
         try:
             with self.connection.cursor() as cursor:

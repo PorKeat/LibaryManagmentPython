@@ -13,9 +13,8 @@ class AdminView:
             
     def found_use_by_id(self):
         id = input("Search ID: ")
-        result = self.model.searchUserByID(id)
+        result = self.controller.search_user_id_to_update(id)
         if result:
             print(f"User ID: {result[0]}, Username: {result[1]}, Role: {result[2]}")
-            return True
         else:
-            return False
+            print(result)
