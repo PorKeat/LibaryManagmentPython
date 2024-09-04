@@ -16,9 +16,9 @@ authView = AuthView()
 
 # authView.login_role()
 # authView.register_user()
-# adminView.show_all_use()
+adminView.show_all_user()
 
-adminView.found_use_by_id()
+adminView.updated_user()
 
 # !ADMIN FEATURE
 

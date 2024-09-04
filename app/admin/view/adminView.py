@@ -1,20 +1,50 @@
 from app.admin.controller.adminController import AdminController
-from app.admin.model.adminModel import AdminModel
 
 class AdminView:
     def __init__(self):
-        self.controller = AdminController()
-        self.model = AdminModel()
+        self.controller = AdminController() 
         
-    def show_all_use(self):
+    def table_user(self,user):
+        print(f"User ID: {user[0]}, Username: {user[1]}, Role: {user[2]}")
+        
+    def user_not_found(self):
+        print("User not found !")
+        
+    def show_all_user(self):
         results = self.controller.find_user()
-        for user in results:
-            print(f"User ID: {user[0]}, Username: {user[1]}, Role: {user[2]}")
+        if results:
+            for user in results:
+                self.table_user(user)
+        else:
+            self.user_not_found()
             
-    def found_use_by_id(self):
+    def found_user_by_id(self):
         id = input("Search ID: ")
         result = self.controller.search_user_id_to_update(id)
         if result:
-            print(f"User ID: {result[0]}, Username: {result[1]}, Role: {result[2]}")
+            self.table_user(result)
         else:
+            self.user_not_found()
+    
+    def found_user_by_name(self):
+        name = input("Search Name: ")
+        results = self.controller.search_user_name_to_update(name)
+        if results:
+            for result in results:
+                self.table_user(result)
+        else:
+            self.user_not_found()
+            
+    def updated_user(self):
+        user_id = input("Enter user ID: ")
+        check = self.controller.search_user_id_to_update(id)
+        print(check)
+        if check:
+            username = input("Enter username: ")
+            first_name = input("Enter first name: ")
+            last_name = input("Enter last name: ")
+            phone_number = input("Enter phone number: ")
+            result = self.user_to_update(username, first_name, last_name, phone_number, user_id)
             print(result)
+        else:
+            self.user_not_found()

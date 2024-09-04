@@ -5,23 +5,29 @@ class AdminController:
         self.admin_model = AdminModel()
         
     def find_user(self):
-        result = self.admin_model.listUser()
+        result = self.admin_model.list_user()
         if result:
             return result
         else:
-            print("No users found !")
-            
-    # def search_user_id_to_update(self,id):
-    #     results = self.admin_view.found_use_by_id()
-    #     if results:
-    #         print("Found User !")
-    #         return results
-    #     else:
-    #         print(f"User not found ID:{id} !")
+            return None
             
     def search_user_id_to_update(self, user_id):
-        result = self.admin_model.searchUserByID(user_id)
+        result = self.admin_model.search_user_by_name(user_id)
         if result:
             return result
         else:
-            return "User not found !"
+            return None
+    
+    def search_user_name_to_update(self, user_name):
+        results = self.admin_model.search_user_by_name(user_name)
+        if results:
+            return results
+        else:
+            return None
+        
+    def user_to_update(self, username, first_name, last_name, phone_number, user_id):
+        result = self.admin_model.update_user_data(username, first_name, last_name, phone_number, user_id)
+        if result:
+            return "Updated Successfully"
+        else:
+            return "Update Failed"

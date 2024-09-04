@@ -60,7 +60,7 @@ class AdminModel:
     #         self.connection.rollback() 
     
     # ! List User
-    def listUser(self):
+    def list_user(self):
         try:
             with self.connection.cursor() as cursor:
                 cursor.execute(
@@ -77,7 +77,7 @@ class AdminModel:
             print(f"Error: {e}")
             self.connection.rollback()
             
-    def searchUserByID(self,id):
+    def search_user_by_id(self,id):
         try:
             with self.connection.cursor() as cursor:
                 cursor.execute(
@@ -95,7 +95,7 @@ class AdminModel:
             print(f"Error: {e}")
             self.connection.rollback()
              
-    def searchUserByName(self,name):
+    def search_user_by_name(self,name):
         try:
             with self.connection.cursor() as cursor:
                 cursor.execute(
@@ -108,43 +108,48 @@ class AdminModel:
                     (f'%{name}%',)
                 )
                 results = cursor.fetchall()
-                if results:
-                    for result in results:
-                        print(f"User ID: {result[0]}, Username: {result[1]}, Role: {result[2]}")
-                else:
-                    print("No user found !")
+                return results
         except Exception as e:
             print(f"Error: {e}")
             self.connection.rollback()
-            
-    def updateUserData(self,username,first_name,last_name,phone_number,id):
+    
+    def user_exist(self, user_id):
         try:
             with self.connection.cursor() as cursor:
                 cursor.execute(
-                """
-                SELECT * FROM Users WHERE user_id = %s;
-                """,
-                (id,) 
+                    """
+                    SELECT * FROM Users WHERE user_id = %s;
+                    """,
+                    (user_id,)
                 )
-                user = cursor.fetchone()
-                if user:
+                return cursor.fetchone() is not None
+        except Exception as e:
+            print(f"Error: {e}")
+            return False
+
+            
+    def update_user_data(self, username, first_name, last_name, phone_number, user_id):
+        try:
+            if self.user_exists(user_id):
+                with self.connection.cursor() as cursor:
                     cursor.execute(
                         """
                         UPDATE Users
                         SET username = %s, first_name = %s, last_name = %s, phone_number = %s
                         WHERE user_id = %s;
                         """,
-                        (username, first_name, last_name, phone_number, id)
+                        (username, first_name, last_name, phone_number, user_id)
                     )
                     self.connection.commit()
-                    print("User updated successfully !")
-                else:
-                    print("User not found !")
+                    return True
+            else:
+                return False
         except Exception as e:
             print(f"Error: {e}")
             self.connection.rollback()
+            return False
             
-    def upgradeRole(self,role,id):
+    def upgrade_role(self,role,id):
         self.listUser()
         try:
             with self.connection.cursor() as cursor:
