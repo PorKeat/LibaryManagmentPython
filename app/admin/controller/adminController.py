@@ -12,7 +12,7 @@ class AdminController:
             return None
             
     def search_user_id_to_update(self, user_id):
-        result = self.admin_model.search_user_by_name(user_id)
+        result = self.admin_model.search_user_by_id(user_id)
         if result:
             return result
         else:
@@ -31,3 +31,10 @@ class AdminController:
             return "Updated Successfully"
         else:
             return "Update Failed"
+        
+    def user_to_upgrade(self,role,id):
+        result = self.admin_model.upgrade_role(role,id)
+        if result:
+            return "Upgraded User Successfully"
+        else:
+            return "Upgraded User Fail"

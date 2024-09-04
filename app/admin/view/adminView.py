@@ -36,7 +36,7 @@ class AdminView:
             self.user_not_found()
             
     def updated_user(self):
-        user_id = input("Enter user ID: ")
+        id = input("Enter user ID: ")
         check = self.controller.search_user_id_to_update(id)
         print(check)
         if check:
@@ -44,7 +44,18 @@ class AdminView:
             first_name = input("Enter first name: ")
             last_name = input("Enter last name: ")
             phone_number = input("Enter phone number: ")
-            result = self.user_to_update(username, first_name, last_name, phone_number, user_id)
+            result = self.controller.user_to_update(username, first_name, last_name, phone_number, id)
+            print(result)
+        else:
+            self.user_not_found()
+            
+    def upgrade_user(self):
+        id = input("Enter user ID: ")
+        check = self.controller.search_user_id_to_update(id)
+        print(check)
+        if check:
+            role = int(input("Enter role:"))
+            result = self.controller.user_to_upgrade(role,id)
             print(result)
         else:
             self.user_not_found()

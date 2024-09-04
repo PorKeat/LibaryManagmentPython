@@ -130,7 +130,7 @@ class AdminModel:
             
     def update_user_data(self, username, first_name, last_name, phone_number, user_id):
         try:
-            if self.user_exists(user_id):
+            if self.user_exist(user_id):
                 with self.connection.cursor() as cursor:
                     cursor.execute(
                         """
@@ -150,17 +150,9 @@ class AdminModel:
             return False
             
     def upgrade_role(self,role,id):
-        self.listUser()
         try:
-            with self.connection.cursor() as cursor:
-                cursor.execute(
-                """
-                SELECT * FROM Users WHERE user_id = %s;
-                """,
-                (id,)
-                )
-                user = cursor.fetchone()
-                if user:
+            if self.user_exist(id):
+                with self.connection.cursor() as cursor:
                     cursor.execute(
                         """
                         UPDATE Users
@@ -170,9 +162,10 @@ class AdminModel:
                         (role,id)
                     )
                     self.connection.commit()
-                    print("Role upgraded successfully !")
-                else:
-                    print("Failed to upgrade role !")
+                    return True
+            else:
+                return False
         except Exception as e:
             print(f"Error: {e}")
             self.connection.rollback()
+            return False 

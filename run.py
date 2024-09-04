@@ -18,7 +18,9 @@ authView = AuthView()
 # authView.register_user()
 adminView.show_all_user()
 
-adminView.updated_user()
+# adminView.found_user_by_id()
+# adminView.updated_user()
+adminView.upgrade_user()
 
 # !ADMIN FEATURE
 
