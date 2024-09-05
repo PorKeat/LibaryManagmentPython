@@ -10,6 +10,20 @@ class AdminController:
             return result
         else:
             return None
+    
+    def find_genre(self):
+        result = self.admin_model.list_genre()
+        if result:
+            return result
+        else:
+            return None
+    
+    def find_role(self):
+        result = self.admin_model.list_role()
+        if result:
+            return result
+        else:
+            return None
             
     def search_user_id_to_update(self, user_id):
         result = self.admin_model.search_user_by_id(user_id)

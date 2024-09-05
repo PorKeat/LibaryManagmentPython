@@ -59,6 +59,20 @@ class AdminModel:
     #         print(f"Error: {e}")
     #         self.connection.rollback() 
     
+    # ! List Role
+    def list_role(self):
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT * FROM Roles
+                    """)
+                results = cursor.fetchall()
+                return results
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
+            
     # ! List User
     def list_user(self):
         try:
@@ -72,11 +86,24 @@ class AdminModel:
                 )
                 results = cursor.fetchall()
                 return results
-
         except Exception as e:
             print(f"Error: {e}")
             self.connection.rollback()
-            
+    
+    # ! List Genre
+    def list_genre(self):
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT * FROM genre
+                    """
+                )
+                results = cursor.fetchall()
+                return results
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
     def search_user_by_id(self,id):
         try:
             with self.connection.cursor() as cursor:
@@ -153,7 +180,7 @@ class AdminModel:
         try:
             if self.user_exist(id):
                 with self.connection.cursor() as cursor:
-                    cursor.execute(
+                    cursor.execute(  
                         """
                         UPDATE Users
                         SET role_id = %s
@@ -168,4 +195,5 @@ class AdminModel:
         except Exception as e:
             print(f"Error: {e}")
             self.connection.rollback()
-            return False 
+            return False
+        

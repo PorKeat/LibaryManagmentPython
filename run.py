@@ -16,7 +16,9 @@ authView = AuthView()
 
 # authView.login_role()
 # authView.register_user()
-adminView.show_all_user()
+# adminView.show_all_user()
+# adminView.show_all_genre()
+# adminView.show_all_role()
 
 # adminView.found_user_by_id()
 # adminView.updated_user()

@@ -6,6 +6,10 @@ class AdminView:
         
     def table_user(self,user):
         print(f"User ID: {user[0]}, Username: {user[1]}, Role: {user[2]}")
+    
+    def table_data(self,id,data):
+        print(f"{id}\t{data}")
+    
         
     def user_not_found(self):
         print("User not found !")
@@ -15,6 +19,24 @@ class AdminView:
         if results:
             for user in results:
                 self.table_user(user)
+        else:
+            self.user_not_found()
+    
+    def show_all_genre(self):
+        results = self.controller.find_genre()
+        print("ID\tGenre")
+        if results:
+            for id,genre in results:
+                self.table_data(id,genre)
+        else:
+            self.user_not_found()
+            
+    def show_all_role(self):
+        results = self.controller.find_role()
+        print("ID\tRole")
+        if results:
+            for id,role in results:
+                self.table_data(id,role)
         else:
             self.user_not_found()
             
@@ -50,6 +72,7 @@ class AdminView:
             self.user_not_found()
             
     def upgrade_user(self):
+        self.show_all_role()
         id = input("Enter user ID: ")
         check = self.controller.search_user_id_to_update(id)
         print(check)
