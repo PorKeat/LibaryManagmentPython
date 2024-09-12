@@ -3,7 +3,7 @@ from app.admin.controller.adminController import AdminController
 class AdminView:
     def __init__(self):
         self.controller = AdminController() 
-        
+    # TODO TABLE OUTPUT
     def table_user(self,user):
         print(f"User ID: {user[0]}, Username: {user[1]}, Role: {user[2]}")
         
@@ -16,7 +16,8 @@ class AdminView:
         
     def user_not_found(self):
         print("User not found !")
-        
+    
+    # TODO LIST
     def list_user(self):
         results = self.controller.list_user()
         if results:
@@ -50,7 +51,8 @@ class AdminView:
                 self.table_data(id,role)
         else:
             self.user_not_found()
-            
+      
+    # TODO SEARCH
     def search_user_by_id(self):
         id = input("Search ID: ")
         result = self.controller.search_user_by_id(id)
@@ -75,7 +77,8 @@ class AdminView:
                 self.table_user(result)
         else:
             self.user_not_found()
-            
+      
+    # TODO UPDATE
     def update_user_data(self):
         id = input("Enter user ID: ")
         check = self.controller.search_user_by_id(id)
@@ -128,7 +131,8 @@ class AdminView:
             print(result)
         else:
             self.user_not_found()
-            
+        
+    # TODO CREATE & ADD
     def new_book(self):
         self.show_all_genre()
         title = input("Enter title: ")
@@ -139,7 +143,8 @@ class AdminView:
         genre_id = int(input("Enter genre id:"))
         result = self.controller.create_book(title,author,publisher,copies,year,genre_id)
         print(result)
-        
+       
+    # TODO REMOVE
     def remove_book(self):
         self.show_all_book()
         id = input("Enter id: ")

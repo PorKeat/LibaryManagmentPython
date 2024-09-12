@@ -73,7 +73,7 @@ class AuthView:
             print("====================================================")
             op = int(input("Choose your option: "))
             if op == 1:
-                self.adminView.show_all_book()
+                self.adminView.list_book()
             elif op == 2:
                 pass
             elif op == 3:

@@ -1,5 +1,4 @@
 from db_connection import connect
-import hashlib
 
 class AdminModel:
     def __init__(self):
