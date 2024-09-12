@@ -103,6 +103,24 @@ class AdminModel:
         except Exception as e:
             print(f"Error: {e}")
             self.connection.rollback()
+    # ! Search Book ID
+    def search_book_by_id(self,id):
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT Books.book_id, Books.title, Books.author_name, Genre.genre_name
+                    FROM Books
+                    JOIN Genre ON Books.genre_id = Genre.genre_id
+                    WHERE Books.book_id = %s
+                    """,
+                    (id,)
+                )
+                result = cursor.fetchone()
+                return result
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
     # ! Search To Check this user exist or not
     def user_exist(self, user_id):
         try:
@@ -112,6 +130,20 @@ class AdminModel:
                     SELECT * FROM Users WHERE user_id = %s;
                     """,
                     (user_id,)
+                )
+                return cursor.fetchone() is not None
+        except Exception as e:
+            print(f"Error: {e}")
+            return False
+        
+    def book_exist(self, book_id):
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT * FROM Books WHERE book_id = %s;
+                    """,
+                    (book_id,)
                 )
                 return cursor.fetchone() is not None
         except Exception as e:
@@ -173,7 +205,60 @@ class AdminModel:
             print(f"Error: {e}")
             self.connection.rollback()
             return False
+    # ! Change Book Genre  
+    def change_genre(self, genre, id):
+        try:
+            if self.book_exist(id):
+                with self.connection.cursor() as cursor:
+                    cursor.execute(
+                        """
+                        SELECT genre_id
+                        FROM Books
+                        WHERE book_id = %s;
+                        """,
+                        (id,)
+                    )
+                    current_genre = cursor.fetchone()        
+                    if current_genre and current_genre[0] == genre:
+                        print(f"This book id {id} already {genre}.")
+                        return False
+                    cursor.execute(
+                        """
+                        UPDATE Books
+                        SET genre_id = %s
+                        WHERE book_id = %s;
+                        """,
+                        (genre, id)
+                    )
+                    self.connection.commit()
+                    return True
+            else:
+                return False
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
+            return False
     # ! Update Book
+    def update_book_data(self, title, author_name, publisher_name, copies_available, year_of_publisher, book_id):
+        try:
+            if self.book_exist(book_id):
+                with self.connection.cursor() as cursor:
+                    cursor.execute(
+                        """
+                        UPDATE Books
+                        SET title = %s, author_name = %s, publisher_name = %s, copies_available = %s, year_of_publisher = %s
+                        WHERE book_id = %s;
+                        """,
+                        (title, author_name, publisher_name, copies_available, year_of_publisher, book_id)
+                    )
+                    self.connection.commit()
+                    return True
+            else:
+                return False
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
+            return False
     
     # TODO CREATE & ADD
     # ! Add New Book

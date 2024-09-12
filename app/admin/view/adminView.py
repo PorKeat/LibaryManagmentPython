@@ -58,6 +58,14 @@ class AdminView:
             self.table_user(result)
         else:
             self.user_not_found()
+            
+    def search_book_by_id(self):
+        id = input("Search ID: ")
+        result = self.controller.search_book_by_id(id)
+        if result:
+            self.table_book(result)
+        else:
+            self.user_not_found()
     
     def search_user_by_name(self):
         name = input("Search Name: ")
@@ -81,15 +89,42 @@ class AdminView:
             print(result)
         else:
             self.user_not_found()
-            
+    
+    def update_book_data(self):
+        id = input("Enter book ID: ")
+        check = self.controller.search_book_by_id(id)
+        print(check)
+        if check:
+            title = input("Enter Title: ")
+            author_name = input("Enter Author: ")
+            publisher_name = input("Enter Publisher: ")
+            copies_available = int(input("Enter Copies: "))
+            year_of_publisher = int(input("Enter Year Of Publisher: "))
+            result = self.controller.update_book_data(title, author_name, publisher_name, copies_available, year_of_publisher,id)
+            print(result)
+        else:
+            self.user_not_found()
+        
     def upgrade_role(self):
-        self.show_all_role()
+        self.list_role()
         id = input("Enter user ID: ")
         check = self.controller.search_user_by_id(id)
         print(check)
         if check:
             role = int(input("Enter role:"))
             result = self.controller.upgrade_role(role,id)
+            print(result)
+        else:
+            self.user_not_found()
+            
+    def change_genre(self):
+        self.list_genre()
+        id = input("Enter user ID: ")
+        check = self.controller.search_book_by_id(id)
+        print(check)
+        if check:
+            genre = int(input("Enter role:"))
+            result = self.controller.change_genre(genre,id)
             print(result)
         else:
             self.user_not_found()
