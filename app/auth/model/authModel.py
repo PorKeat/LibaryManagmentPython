@@ -6,7 +6,7 @@ class AuthModel:
     def __init__(self):
         self.connection = connect
         
-    def check_user(self, email, password):
+    def login(self, email, password):
         encoded_password = password.encode()
         hashPassword = hashlib.sha256()
         hashPassword.update(encoded_password)
@@ -26,7 +26,7 @@ class AuthModel:
             self.connection.rollback()
             return None
         
-    def create_user(self, username, first_name, last_name, email, password, phone_number,role):
+    def register(self, username, first_name, last_name, email, password, phone_number,role):
 
         try:
             with self.connection.cursor() as cursor:

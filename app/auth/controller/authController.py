@@ -7,7 +7,7 @@ class AuthController:
         self.user_model = AuthModel()
 
     def login(self, email, password):
-        user_data = self.user_model.check_user(email, password)
+        user_data = self.user_model.login(email, password)
         if user_data:
             user_role = user_data[8]
             if user_role == 1:

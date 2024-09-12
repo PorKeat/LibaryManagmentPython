@@ -5,60 +5,7 @@ class AdminModel:
     def __init__(self):
         self.connection = connect
         
-    # ! REGISTER
-    # def register(self, username, first_name, last_name, email, password, phone_number,role):
-    #     encoded_password = password.encode()
-    #     hashPassword = hashlib.sha256()
-    #     hashPassword.update(encoded_password)
-    #     hashedPass = hashPassword.hexdigest()
-    #     try:
-    #         with self.connection.cursor() as cursor:
-    #                 cursor.execute(
-    #                 """
-    #                 INSERT INTO users (username, first_name, last_name, email, password, phone_number, membership_date, role_id)
-    #                 VALUES (%s, %s, %s, %s, %s, %s, NOW(),%s)
-    #                 """,
-    #                 (username, first_name, last_name, email, hashedPass, phone_number,role)
-    #             )
-    #         self.connection.commit()
-    #     except Exception as e:
-    #         print(f"Error: {e}")
-    #         self.connection.rollback()
-            
-    # ! LOGIN
-    # def login(self, email, password):
-    #     encoded_password = password.encode()
-    #     hashPassword = hashlib.sha256()
-    #     hashPassword.update(encoded_password)
-    #     hashedPass = hashPassword.hexdigest()
-    #     try:
-    #         with self.connection.cursor() as cursor:
-    #             cursor.execute(
-    #             """
-    #             SELECT * FROM users WHERE email = %s AND password = %s
-    #             """,
-    #             (email, hashedPass)
-    #             )
-    #             results = cursor.fetchone()
-    #             if results:
-    #                 if results[8] == 1:
-    #                     print("You are Admin")
-    #                     print("Successfully")
-    #                     print("User Success:", results[5])
-    #                 elif results[8] == 2:
-    #                     print("You are Librarian")
-    #                     print("Successfully")
-    #                     print("User Success:", results[5])
-    #                 else:
-    #                     print("You are Member")
-    #                     print("Successfully")
-    #                     print("User Success:", results[5])
-    #             else:
-    #                 print("Incorrect Email or Password!")
-    #     except Exception as e:
-    #         print(f"Error: {e}")
-    #         self.connection.rollback() 
-    
+    # TODO LIST
     # ! List Role
     def list_role(self):
         try:
@@ -72,7 +19,6 @@ class AdminModel:
         except Exception as e:
             print(f"Error: {e}")
             self.connection.rollback()
-            
     # ! List User
     def list_user(self):
         try:
@@ -89,7 +35,22 @@ class AdminModel:
         except Exception as e:
             print(f"Error: {e}")
             self.connection.rollback()
-    
+    # ! List Book
+    def list_book(self):
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT Books.book_id, Books.title, Books.author_name, Genre.genre_name
+                    FROM Books
+                    JOIN Genre ON Books.genre_id = Genre.genre_id;
+                    """
+                )
+                results = cursor.fetchall()
+                return results
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
     # ! List Genre
     def list_genre(self):
         try:
@@ -104,6 +65,9 @@ class AdminModel:
         except Exception as e:
             print(f"Error: {e}")
             self.connection.rollback()
+            
+    # TODO SEARCH
+    # ! Search User ID
     def search_user_by_id(self,id):
         try:
             with self.connection.cursor() as cursor:
@@ -121,7 +85,7 @@ class AdminModel:
         except Exception as e:
             print(f"Error: {e}")
             self.connection.rollback()
-             
+    # ! Search User Name
     def search_user_by_name(self,name):
         try:
             with self.connection.cursor() as cursor:
@@ -139,7 +103,7 @@ class AdminModel:
         except Exception as e:
             print(f"Error: {e}")
             self.connection.rollback()
-    
+    # ! Search To Check this user exist or not
     def user_exist(self, user_id):
         try:
             with self.connection.cursor() as cursor:
@@ -154,7 +118,8 @@ class AdminModel:
             print(f"Error: {e}")
             return False
 
-            
+    # TODO UPDATE
+    # ! Update All User Data
     def update_user_data(self, username, first_name, last_name, phone_number, user_id):
         try:
             if self.user_exist(user_id):
@@ -175,18 +140,30 @@ class AdminModel:
             print(f"Error: {e}")
             self.connection.rollback()
             return False
-            
-    def upgrade_role(self,role,id):
+    # ! Upgrade User Role  
+    def upgrade_role(self, role, id):
         try:
             if self.user_exist(id):
                 with self.connection.cursor() as cursor:
-                    cursor.execute(  
+                    cursor.execute(
+                        """
+                        SELECT role_id
+                        FROM Users
+                        WHERE user_id = %s;
+                        """,
+                        (id,)
+                    )
+                    current_role = cursor.fetchone()        
+                    if current_role and current_role[0] == role:
+                        print(f"User {id} already has the role {role}.")
+                        return False
+                    cursor.execute(
                         """
                         UPDATE Users
                         SET role_id = %s
                         WHERE user_id = %s;
                         """,
-                        (role,id)
+                        (role, id)
                     )
                     self.connection.commit()
                     return True
@@ -196,4 +173,57 @@ class AdminModel:
             print(f"Error: {e}")
             self.connection.rollback()
             return False
-        
+    # ! Update Book
+    
+    # TODO CREATE & ADD
+    # ! Add New Book
+    def add_book(self,title,author,publisher,copies,year,genre_id):
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    INSERT INTO books (title,author_name,publisher_name,copies_available,year_of_publisher,created_at,genre_id)
+                    VALUES (%s,%s,%s,%s,%s,NOW(),%s)
+                    """,
+                    (title,author,publisher,copies,year,genre_id)
+                )
+            self.connection.commit()
+            return True
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
+            return False
+    
+    # TODO REMOVE
+    # ! Remove Book 
+    def remove_book(self,id):
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    DELETE FROM books WHERE book_id = %s      
+                    """,
+                    (id)
+                )
+            self.connection.commit()
+            return True
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
+            return False
+    # ! Remove User
+    def remove_user(self,id):
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    DELETE FROM users WHERE user_id = %s      
+                    """,
+                    (id)
+                )
+            self.connection.commit()
+            return True
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
+            return False

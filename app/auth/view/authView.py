@@ -1,12 +1,14 @@
 from app.auth.controller.authController import AuthController
+from app.admin.view.adminView import AdminView
 import getpass
 import pwinput
 
 class AuthView:
     def __init__(self):
         self.controller = AuthController()
+        self.adminView = AdminView()
 
-    def login_role(self):
+    def login(self):
         while True:
             email = input("Enter your email: ")
             if self.controller.validateEmail(email):
@@ -32,7 +34,7 @@ class AuthView:
         else:
             print("Incorrect Email or Password!")
             
-    def register_user(self):
+    def register(self):
         username = input("Username: ")
         first_name = input("First Name: ")
         last_name = input("Last Name: ")
@@ -61,3 +63,25 @@ class AuthView:
             else:
                 print("Please enter a valid number for role (1, 2, 3)")
         self.controller.register(username, first_name, last_name, email, password, phone_number,role)
+
+    def normal_user(self):
+        while True:
+            print("============| Libary Management System |============")
+            print("1. List All Book")
+            print("3. Register To Become A Member")
+            print("0. Exit !")
+            print("====================================================")
+            op = int(input("Choose your option: "))
+            if op == 1:
+                self.adminView.show_all_book()
+            elif op == 2:
+                pass
+            elif op == 3:
+                pass
+            elif op == 0:
+                break
+            else:
+                print("Invalid Input !")
+    
+    def register_to_become_member(self):
+        print("============|  Become Our Member Ship  |============")
