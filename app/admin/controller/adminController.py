@@ -102,7 +102,7 @@ class AdminController:
     
     # TODO CREATE & ADD
     def create_book(self,title,author,publisher,copies,year,genre_id):
-        result = self.admin_model.add_book(title,author,publisher,copies,year,genre_id)
+        result = self.admin_model.create_book(title,author,publisher,copies,year,genre_id)
         if result:
             return "Add New Book Successfully !"
         else:

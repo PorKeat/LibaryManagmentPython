@@ -133,8 +133,8 @@ class AdminView:
             self.user_not_found()
         
     # TODO CREATE & ADD
-    def new_book(self):
-        self.show_all_genre()
+    def create_book(self):
+        self.list_genre()
         title = input("Enter title: ")
         author = input("Enter author: ")
         publisher = input("Enter publisher: ")

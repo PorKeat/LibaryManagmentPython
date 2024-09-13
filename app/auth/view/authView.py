@@ -92,7 +92,7 @@ class AuthView:
         while True:
             print("============| Admin Feature |============")
             print("1. List Features")
-            print("2. Add Features")
+            print("2. Create Features")
             print("3. Search Features")
             print("4. Update Features")
             print("5. Remove Features")
@@ -116,6 +116,41 @@ class AuthView:
                     self.adminView.list_role()
                 elif subOp == 4:
                     self.adminView.list_genre()
+                elif subOp == 0:
+                    continue
+                else:
+                    print("Invalid Input !")
+            elif op == 2:
+                print("============| Create Features |============")
+                print("1. Create Member")
+                print("2. Create Librarian")
+                print("3. Create Book")
+                print("0. Back !")
+                print("===========================================")
+                subOp = int(input("Choose your option: "))
+                if subOp == 1:
+                    pass
+                elif subOp == 2:
+                    pass
+                elif subOp == 3:
+                    self.adminView.create_book()
+                elif subOp == 0:
+                    continue
+                else:
+                    print("Invalid Input !")
+            elif op == 3:
+                print("============| Search Features |============")
+                print("1. Search User By ID")
+                print("2. Search User By Name")
+                print("3. Search Book By ID")
+                print("===========================================")
+                subOp = int(input("Choose your option: "))
+                if subOp == 1:
+                    self.adminView.search_user_by_id()
+                elif subOp == 2:
+                    self.adminView.search_user_by_name()
+                elif subOp == 3:
+                    self.adminView.search_book_by_id()
                 elif subOp == 0:
                     continue
                 else:

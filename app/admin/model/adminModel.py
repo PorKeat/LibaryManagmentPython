@@ -261,7 +261,7 @@ class AdminModel:
     
     # TODO CREATE & ADD
     # ! Add New Book
-    def add_book(self,title,author,publisher,copies,year,genre_id):
+    def create_book(self,title,author,publisher,copies,year,genre_id):
         try:
             with self.connection.cursor() as cursor:
                 cursor.execute(
