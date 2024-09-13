@@ -9,6 +9,4 @@ memberView = MemberView()
 
 
 
-# adminView.list_book()
-# adminView.change_genre()
-memberView.list_book()
+authView.normal_user()

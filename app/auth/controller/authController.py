@@ -24,7 +24,7 @@ class AuthController:
         hashPassword = hashlib.sha256()
         hashPassword.update(encoded_password)
         hashedPass = hashPassword.hexdigest()
-        result = self.user_model.create_user(username, first_name, last_name, email, hashedPass, phone_number,role)
+        result = self.user_model.register(username, first_name, last_name, email, hashedPass, phone_number,role)
         if result:
             print("Register successfully !")
         else:
