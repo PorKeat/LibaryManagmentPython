@@ -8,7 +8,7 @@ class AdminView:
         print(f"User ID: {user[0]}, Username: {user[1]}, Role: {user[2]}")
         
     def table_book(self,book):
-        print(f"Book ID: {book[0]}, Title: {book[1]}, Author: {book[2]}, Genre: {book[3]}")
+        print(f"Book ID: {book[0]}, Title: {book[1]}, Author: {book[2]}, Genre: {book[3]}, Copies: {book[4]}")
     
     def table_data(self,id,data):
         print(f"{id}\t{data}")
@@ -142,6 +142,12 @@ class AdminView:
         year = int(input("Enter year: "))
         genre_id = int(input("Enter genre id:"))
         result = self.controller.create_book(title,author,publisher,copies,year,genre_id)
+        print(result)
+        
+    def borrow_book(self,user_id):
+        self.list_book()
+        book_id = int(input("Enter Book ID: "))
+        result = self.controller.borrow_book(user_id ,book_id)
         print(result)
        
     # TODO REMOVE

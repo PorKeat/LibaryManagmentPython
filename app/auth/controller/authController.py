@@ -9,13 +9,14 @@ class AuthController:
     def login(self, email, password):
         user_data = self.user_model.login(email, password)
         if user_data:
+            user_id = user_data[0]
             user_role = user_data[8]
             if user_role == 1:
-                return 'admin'
+                return 'admin',user_id
             elif user_role == 2:
-                return 'librarian'
+                return 'librarian',user_id
             else:
-                return 'member'
+                return 'member',user_id
         else:
             return 'error'
     

@@ -107,3 +107,10 @@ class AdminController:
             return "Add New Book Successfully !"
         else:
             return "Failed to add new book !"
+    
+    def borrow_book(self,user_id ,book_id):
+        result = self.admin_model.borrow_book(user_id ,book_id)
+        if result:
+            return "Borrow Book Successfully !"
+        else:
+            return "Failed to borrow book !"

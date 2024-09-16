@@ -40,7 +40,7 @@ class AdminModel:
             with self.connection.cursor() as cursor:
                 cursor.execute(
                     """
-                    SELECT Books.book_id, Books.title, Books.author_name, Genre.genre_name
+                    SELECT Books.book_id, Books.title, Books.author_name, Genre.genre_name, Books.copies_available
                     FROM Books
                     JOIN Genre ON Books.genre_id = Genre.genre_id;
                     """
@@ -277,6 +277,35 @@ class AdminModel:
             print(f"Error: {e}")
             self.connection.rollback()
             return False
+    
+    # ! Borrow Book
+    def borrow_book(self, user_id, book_id):
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute("""
+                    SELECT copies_available FROM Books
+                    WHERE book_id = %s
+                """, (book_id,))
+                result = cursor.fetchone()
+                if result and result[0] > 0:
+                    cursor.execute("""
+                        INSERT INTO BorrowedBooks (user_id, book_id, borrow_date, return_date, status)
+                        VALUES (%s, %s, NOW(), NOW() + INTERVAL '7 days', %s)
+                    """, (user_id, book_id, "pending"))
+                    cursor.execute("""
+                        UPDATE Books
+                        SET copies_available = copies_available - 1
+                        WHERE book_id = %s
+                    """, (book_id,))
+                    self.connection.commit()
+                    return True
+                else:
+                    return False
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
+            return False
+
     
     # TODO REMOVE
     # ! Remove Book 

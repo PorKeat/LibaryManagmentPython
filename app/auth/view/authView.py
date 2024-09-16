@@ -9,6 +9,7 @@ class AuthView:
         self.controller = AuthController()
         self.adminView = AdminView()
         self.memberView = MemberView()
+        self.login_id = []
 
     def login(self):
         while True:
@@ -23,17 +24,21 @@ class AuthView:
                 break
             else:
                 print("Invalid Input Password!")
-        status = self.controller.login(email, password)
+        status,user_id = self.controller.login(email, password)
         if status == 'admin':
             print("You are Admin")
             print("Successfully logged in")
+            self.login_id.append(user_id)
+            print(self.login_id)
             self.admin_feature()
         elif status == 'librarian':
             print("You are Librarian")
             print("Successfully logged in")
+            self.login_id.append(user_id)
         elif status == 'member':
             print("You are Member")
             print("Successfully logged in")
+            self.login_id.append(user_id)
         else:
             print("Incorrect Email or Password!")
             
@@ -96,6 +101,7 @@ class AuthView:
             print("3. Search Features")
             print("4. Update Features")
             print("5. Remove Features")
+            print("6. Borrow Book")
             print("0. Sign Out !")
             print("=========================================")
             op = int(input("Choose your option: "))
@@ -155,6 +161,44 @@ class AuthView:
                     continue
                 else:
                     print("Invalid Input !")
+            elif op == 4:
+                print("============| Update Features |============")
+                print("1. Update User")
+                print("2. Update Book")
+                print("3. Upgrade Role")
+                print("4. Change Book Genre")
+                print("===========================================")
+                subOp = int(input("Choose your option: "))
+                if subOp == 1:
+                    self.adminView.update_user_data()
+                elif subOp == 2:
+                    self.adminView.update_book_data()
+                elif subOp == 3:
+                    self.adminView.upgrade_role()
+                elif subOp == 4:
+                    self.adminView.change_genre()
+                elif subOp == 0:
+                    continue
+                else:
+                    print("Invalid Input !")
+            elif op == 5:
+                print("============| Remove Features |============")
+                print("1. Remove User")
+                print("2. Remove Book")
+                print("===========================================")
+                subOp = int(input("Choose your option: "))
+                if subOp == 1:
+                    self.adminView.remove_user()
+                elif subOp == 2:
+                    self.adminView.remove_book()
+                elif subOp == 0:
+                    continue
+                else:
+                    print("Invalid Input !")
+            elif op ==6:
+                print("============| Borrow Book |============")
+                self.adminView.borrow_book(self.login_id[0])
+                print("=======================================")
             elif op == 0:
                 break
             else:
