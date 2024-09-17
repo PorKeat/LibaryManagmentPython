@@ -65,7 +65,26 @@ class AdminModel:
         except Exception as e:
             print(f"Error: {e}")
             self.connection.rollback()
+    
+    # ! List Borrow Book
+    def list_borrow_book(self):
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT BorrowedBooks.borrow_id,Users.username,books.title, BorrowedBooks.borrow_date, BorrowedBooks.due_date, BorrowedBooks.status
+                    FROM BorrowedBooks
+                    JOIN Users ON BorrowedBooks.user_id = Users.user_id
+					JOIN Books ON BorrowedBooks.book_id = Books.book_id
+                    """
+                )
+                results = cursor.fetchall()
+                return results
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
             
+    
     # TODO SEARCH
     # ! Search User ID
     def search_user_by_id(self,id):
@@ -296,7 +315,7 @@ class AdminModel:
                         INSERT INTO BorrowedBooks (user_id, book_id, borrow_date, due_date, return_date, status)
                         VALUES (%s, %s, NOW(), NOW() + INTERVAL '7 days',NULL, %s)
                         """,
-                        (user_id, book_id, "pending"))
+                        (user_id, book_id, "Pending"))
                     cursor.execute(
                         """
                         UPDATE Books
@@ -318,32 +337,19 @@ class AdminModel:
             with self.connection.cursor() as cursor:
                 cursor.execute(
                     """
-                    SELECT borrow_date, due_date, user_id, book_id
+                    SELECT book_id
                     FROM BorrowedBooks
                     WHERE borrow_id = %s
                     """,
                     (borrow_id,))
-                borrowed_book = cursor.fetchone()
-                if borrowed_book is None:
-                    print("No borrowed book found with the given borrow_id.")
+                book_id = cursor.fetchone()
+                if book_id is None:
+                    print("No borrowed book found with the given borrow_id !")
                     return False
-                borrow_date, due_date, user_id, book_id = borrowed_book
                 cursor.execute(
                     """
                     UPDATE BorrowedBooks
                     SET return_date = NOW(), status = 'Returned'
-                    WHERE borrow_id = %s
-                    """,
-                    (borrow_id,))
-                cursor.execute(
-                    """
-                    INSERT INTO BorrowedRecord (borrow_date, due_date, return_date, status, user_id, borrow_id)
-                    VALUES (%s, %s, NOW(), 'Returned', %s, %s)
-                    """,
-                    (borrow_date, due_date, user_id, borrow_id))
-                cursor.execute(
-                    """
-                    DELETE FROM BorrowedBooks
                     WHERE borrow_id = %s
                     """,
                     (borrow_id,))

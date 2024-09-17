@@ -12,10 +12,13 @@ class AdminView:
     
     def table_data(self,id,data):
         print(f"{id}\t{data}")
+        
+    def table_borrow_book(self,book):
+        print(f"Borrow ID: {book[0]}, Username: {book[1]}, Title: {book[2]}, Borrow Date: {book[3]}, Due Date: {book[4]}, Status: {book[5]}")
     
         
-    def user_not_found(self):
-        print("User not found !")
+    def not_found(self):
+        print("Not found !")
     
     # TODO LIST
     def list_user(self):
@@ -24,7 +27,7 @@ class AdminView:
             for user in results:
                 self.table_user(user)
         else:
-            self.user_not_found()
+            self.not_found()
     
     def list_genre(self):
         results = self.controller.list_genre()
@@ -33,7 +36,7 @@ class AdminView:
             for id,genre in results:
                 self.table_data(id,genre)
         else:
-            self.user_not_found()
+            self.not_found()
             
     def list_book(self):
         results = self.controller.list_book()
@@ -41,7 +44,7 @@ class AdminView:
             for book in results:
                 self.table_book(book)
         else:
-            self.user_not_found()
+            self.not_found()
             
     def list_role(self):
         results = self.controller.list_role()
@@ -50,7 +53,15 @@ class AdminView:
             for id,role in results:
                 self.table_data(id,role)
         else:
-            self.user_not_found()
+            self.not_found()
+            
+    def list_borrow_book(self):
+        results = self.controller.list_borrrow_book()
+        if results:
+            for borrow in results:
+                self.table_borrow_book(borrow)
+        else:
+            self.not_found()
       
     # TODO SEARCH
     def search_user_by_id(self):
@@ -59,7 +70,7 @@ class AdminView:
         if result:
             self.table_user(result)
         else:
-            self.user_not_found()
+            self.not_found()
             
     def search_book_by_id(self):
         id = input("Search ID: ")
@@ -67,7 +78,7 @@ class AdminView:
         if result:
             self.table_book(result)
         else:
-            self.user_not_found()
+            self.not_found()
     
     def search_user_by_name(self):
         name = input("Search Name: ")
@@ -76,7 +87,7 @@ class AdminView:
             for result in results:
                 self.table_user(result)
         else:
-            self.user_not_found()
+            self.not_found()
       
     # TODO UPDATE
     def update_user_data(self):
@@ -91,7 +102,7 @@ class AdminView:
             result = self.controller.update_user_data(username, first_name, last_name, phone_number, id)
             print(result)
         else:
-            self.user_not_found()
+            self.not_found()
     
     def update_book_data(self):
         id = input("Enter book ID: ")
@@ -106,7 +117,7 @@ class AdminView:
             result = self.controller.update_book_data(title, author_name, publisher_name, copies_available, year_of_publisher,id)
             print(result)
         else:
-            self.user_not_found()
+            self.not_found()
         
     def upgrade_role(self):
         self.list_role()
@@ -118,7 +129,7 @@ class AdminView:
             result = self.controller.upgrade_role(role,id)
             print(result)
         else:
-            self.user_not_found()
+            self.not_found()
             
     def change_genre(self):
         self.list_genre()
@@ -130,7 +141,7 @@ class AdminView:
             result = self.controller.change_genre(genre,id)
             print(result)
         else:
-            self.user_not_found()
+            self.not_found()
         
     # TODO CREATE & ADD
     def create_book(self):
@@ -151,6 +162,7 @@ class AdminView:
         print(result)
         
     def return_book(self):
+        self.list_borrow_book()
         book_id = int(input("Enter Book ID: "))
         result = self.controller.return_book(book_id)
         print(result)

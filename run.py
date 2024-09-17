@@ -9,5 +9,5 @@ memberView = MemberView()
 
 
 
-# authView.normal_user()
-adminView.return_book()
+authView.normal_user()
+# adminView.return_book()

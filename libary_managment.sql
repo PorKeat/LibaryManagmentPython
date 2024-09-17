@@ -52,22 +52,6 @@ CREATE TABLE Books (
     genre_id INT REFERENCES Genre(genre_id) ON DELETE SET NULL
 );
 
-CREATE TABLE BorrowedRecord (
-    borrow_record_id SERIAL PRIMARY KEY,
-    borrow_date DATE,
-    due_date DATE,
-    return_date DATE,
-    status VARCHAR(50),
-    user_id INT REFERENCES Users(user_id) ON DELETE SET NULL,
-    borrow_id INT REFERENCES BorrowedBooks(borrow_id) ON DELETE SET NULL
-);
-
--- CREATE TABLE BorrowedItems (
---     borrow_item_id SERIAL PRIMARY KEY,
---     status VARCHAR(50),
---     quantity INT,
---     book_id INT REFERENCES Books(book_id) ON DELETE SET NULL
--- );
 
 
 
@@ -115,5 +99,5 @@ CREATE TABLE Fines (
     amount DECIMAL(10, 2),
     paid_date DATE,
     status VARCHAR(50),
-    borrow_record_id INT REFERENCES BorrowedRecord(borrow_record_id) ON DELETE SET NULL
+    borrow_id INT REFERENCES BorrowedBooks(borrow_id) ON DELETE SET NULL
 );

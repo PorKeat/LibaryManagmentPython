@@ -32,6 +32,13 @@ class AdminController:
             return result
         else:
             return None
+        
+    def list_borrrow_book(self):
+        result = self.admin_model.list_borrow_book()
+        if result:
+            return result
+        else:
+            return None
     
     # TODO REMOVE
     def remove_book(self,id):
