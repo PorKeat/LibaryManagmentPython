@@ -149,6 +149,11 @@ class AdminView:
         book_id = int(input("Enter Book ID: "))
         result = self.controller.borrow_book(user_id ,book_id)
         print(result)
+        
+    def return_book(self):
+        book_id = int(input("Enter Book ID: "))
+        result = self.controller.return_book(book_id)
+        print(result)
        
     # TODO REMOVE
     def remove_book(self):

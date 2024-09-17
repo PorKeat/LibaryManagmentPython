@@ -1,4 +1,5 @@
 from db_connection import connect
+from datetime import datetime, timedelta
 
 class AdminModel:
     def __init__(self):
@@ -282,21 +283,27 @@ class AdminModel:
     def borrow_book(self, user_id, book_id):
         try:
             with self.connection.cursor() as cursor:
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT copies_available FROM Books
                     WHERE book_id = %s
-                """, (book_id,))
+                    """,
+                    (book_id,))
                 result = cursor.fetchone()
                 if result and result[0] > 0:
-                    cursor.execute("""
-                        INSERT INTO BorrowedBooks (user_id, book_id, borrow_date, return_date, status)
-                        VALUES (%s, %s, NOW(), NOW() + INTERVAL '7 days', %s)
-                    """, (user_id, book_id, "pending"))
-                    cursor.execute("""
+                    cursor.execute(
+                        """
+                        INSERT INTO BorrowedBooks (user_id, book_id, borrow_date, due_date, return_date, status)
+                        VALUES (%s, %s, NOW(), NOW() + INTERVAL '7 days',NULL, %s)
+                        """,
+                        (user_id, book_id, "pending"))
+                    cursor.execute(
+                        """
                         UPDATE Books
                         SET copies_available = copies_available - 1
                         WHERE book_id = %s
-                    """, (book_id,))
+                        """,
+                        (book_id,))
                     self.connection.commit()
                     return True
                 else:
@@ -305,6 +312,55 @@ class AdminModel:
             print(f"Error: {e}")
             self.connection.rollback()
             return False
+
+    def return_book(self, borrow_id):
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT borrow_date, due_date, user_id, book_id
+                    FROM BorrowedBooks
+                    WHERE borrow_id = %s
+                    """,
+                    (borrow_id,))
+                borrowed_book = cursor.fetchone()
+                if borrowed_book is None:
+                    print("No borrowed book found with the given borrow_id.")
+                    return False
+                borrow_date, due_date, user_id, book_id = borrowed_book
+                cursor.execute(
+                    """
+                    UPDATE BorrowedBooks
+                    SET return_date = NOW(), status = 'Returned'
+                    WHERE borrow_id = %s
+                    """,
+                    (borrow_id,))
+                cursor.execute(
+                    """
+                    INSERT INTO BorrowedRecord (borrow_date, due_date, return_date, status, user_id, borrow_id)
+                    VALUES (%s, %s, NOW(), 'Returned', %s, %s)
+                    """,
+                    (borrow_date, due_date, user_id, borrow_id))
+                cursor.execute(
+                    """
+                    DELETE FROM BorrowedBooks
+                    WHERE borrow_id = %s
+                    """,
+                    (borrow_id,))
+                cursor.execute(
+                    """
+                    UPDATE Books
+                    SET copies_available = copies_available + 1
+                    WHERE book_id = %s
+                    """,
+                    (book_id,))
+                self.connection.commit()
+                return True
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
+            return False
+
 
     
     # TODO REMOVE

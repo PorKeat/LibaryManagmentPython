@@ -114,3 +114,10 @@ class AdminController:
             return "Borrow Book Successfully !"
         else:
             return "Failed to borrow book !"
+        
+    def return_book(self,book_id):
+        result = self.admin_model.return_book(book_id)
+        if result:
+            return "Return Book Successfully !"
+        else:
+            return "Failed to return book !"

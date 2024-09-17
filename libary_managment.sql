@@ -58,16 +58,16 @@ CREATE TABLE BorrowedRecord (
     due_date DATE,
     return_date DATE,
     status VARCHAR(50),
-    user_id INT REFERENCES Users(user_id) ON DELETE SET NULL
-    borrow_item_id INT REFERENCES BorrowedItems(borrow_item_id) ON DELETE SET NULL
+    user_id INT REFERENCES Users(user_id) ON DELETE SET NULL,
+    borrow_id INT REFERENCES BorrowedBooks(borrow_id) ON DELETE SET NULL
 );
 
-CREATE TABLE BorrowedItems (
-    borrow_item_id SERIAL PRIMARY KEY,
-    status VARCHAR(50),
-    quantity INT,
-    book_id INT REFERENCES Books(book_id) ON DELETE SET NULL
-);
+-- CREATE TABLE BorrowedItems (
+--     borrow_item_id SERIAL PRIMARY KEY,
+--     status VARCHAR(50),
+--     quantity INT,
+--     book_id INT REFERENCES Books(book_id) ON DELETE SET NULL
+-- );
 
 
 
@@ -85,9 +85,12 @@ CREATE TABLE BorrowedBooks (
     user_id INT REFERENCES Users(user_id) ON DELETE SET NULL,
     book_id INT REFERENCES Books(book_id) ON DELETE SET NULL,
     borrow_date DATE,
+    due_date DATE,
     return_date DATE,
     status VARCHAR(50)
 );
+
+
 
 -- TODO Reservations Table
 CREATE TABLE Reservations (
@@ -112,5 +115,5 @@ CREATE TABLE Fines (
     amount DECIMAL(10, 2),
     paid_date DATE,
     status VARCHAR(50),
-    borrow_item_id INT REFERENCES BorrowedItems(borrow_item_id) ON DELETE SET NULL
+    borrow_record_id INT REFERENCES BorrowedRecord(borrow_record_id) ON DELETE SET NULL
 );

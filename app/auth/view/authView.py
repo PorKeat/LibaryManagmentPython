@@ -102,6 +102,7 @@ class AuthView:
             print("4. Update Features")
             print("5. Remove Features")
             print("6. Borrow Book")
+            print("7. Return Book")
             print("0. Sign Out !")
             print("=========================================")
             op = int(input("Choose your option: "))
@@ -195,9 +196,13 @@ class AuthView:
                     continue
                 else:
                     print("Invalid Input !")
-            elif op ==6:
+            elif op == 6:
                 print("============| Borrow Book |============")
                 self.adminView.borrow_book(self.login_id[0])
+                print("=======================================")
+            elif op == 7:
+                print("============| Return Book |============")
+                self.adminView.return_book()
                 print("=======================================")
             elif op == 0:
                 break
