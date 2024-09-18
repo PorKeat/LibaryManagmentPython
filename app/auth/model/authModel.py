@@ -35,7 +35,7 @@ class AuthModel:
                     INSERT INTO users (username, first_name, last_name, email, password, phone_number, membership_date, role_id)
                     VALUES (%s, %s, %s, %s, %s, %s, NOW(),%s)
                     """,
-                    (username, first_name, last_name, email, password, phone_number,role)
+                    (username, first_name, last_name, email, password, phone_number,3)
                 )
             self.connection.commit()
             return True

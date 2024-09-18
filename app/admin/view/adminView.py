@@ -1,4 +1,5 @@
 from app.admin.controller.adminController import AdminController
+import pwinput
 
 class AdminView:
     def __init__(self):
@@ -166,6 +167,57 @@ class AdminView:
         book_id = int(input("Enter Book ID: "))
         result = self.controller.return_book(book_id,user_id)
         print(result)
+        
+    def create_member(self):
+        print("============|  Create Member  |============")
+        username = input("Username: ")
+        first_name = input("First Name: ")
+        last_name = input("Last Name: ")
+        while True:
+            email = input("Email: ")
+            if self.controller.validateEmail(email):
+                break
+            else:
+                print("Invalid Input Email!")
+        while True:
+            password = pwinput.pwinput('Password: ')
+            if self.controller.validatePass(password):
+                break
+            else:
+                print("Invalid Input Password!")
+        while True:
+            phone_number = input("PhoneNumber: ")
+            if self.controller.validatePhoneNumber(phone_number):
+                break
+            else:
+                print("Invalid Input !")
+        self.controller.create_member(username, first_name, last_name, email, password, phone_number)
+    
+    def create_librarian(self):
+        print("============|  Create Librarian  |============")
+        username = input("Username: ")
+        first_name = input("First Name: ")
+        last_name = input("Last Name: ")
+        while True:
+            email = input("Email: ")
+            if self.controller.validateEmail(email):
+                break
+            else:
+                print("Invalid Input Email!")
+        while True:
+            password = pwinput.pwinput('Password: ')
+            if self.controller.validatePass(password):
+                break
+            else:
+                print("Invalid Input Password!")
+        while True:
+            phone_number = input("PhoneNumber: ")
+            if self.controller.validatePhoneNumber(phone_number):
+                break
+            else:
+                print("Invalid Input !")
+        self.controller.create_librarian(username, first_name, last_name, email, password, phone_number)
+
        
     # TODO REMOVE
     def remove_book(self):

@@ -20,12 +20,12 @@ class AuthController:
         else:
             return 'error'
     
-    def register(self, username, first_name, last_name, email, password, phone_number,role):
+    def register(self, username, first_name, last_name, email, password, phone_number):
         encoded_password = password.encode()
         hashPassword = hashlib.sha256()
         hashPassword.update(encoded_password)
         hashedPass = hashPassword.hexdigest()
-        result = self.user_model.register(username, first_name, last_name, email, hashedPass, phone_number,role)
+        result = self.user_model.register(username, first_name, last_name, email, hashedPass, phone_number)
         if result:
             print("Register successfully !")
         else:

@@ -350,7 +350,7 @@ class AdminModel:
             with self.connection.cursor() as cursor:
                 cursor.execute(
                     """
-                    SELECT book_id, due_date
+                    SELECT book_id, due_date, status
                     FROM BorrowedBooks
                     WHERE borrow_id = %s
                     """,
@@ -361,7 +361,11 @@ class AdminModel:
                     print("No borrowed book found with the given borrow_id!")
                     return False
                 
-                book_id, due_date = result
+                book_id, due_date,status = result
+                
+                if status == 'Returned' or status == 'Returned (Overdue)':
+                    print("This book has already been returned.")
+                    return False
                 
                 current_date = datetime.now().date()
                 overdue = current_date > due_date
@@ -403,6 +407,40 @@ class AdminModel:
             self.connection.rollback()
             return False
 
+    def create_member(self, username, first_name, last_name, email, password, phone_number):
+
+        try:
+            with self.connection.cursor() as cursor:
+                    cursor.execute(
+                    """
+                    INSERT INTO users (username, first_name, last_name, email, password, phone_number, membership_date, role_id)
+                    VALUES (%s, %s, %s, %s, %s, %s, NOW(),%s)
+                    """,
+                    (username, first_name, last_name, email, password, phone_number,3)
+                )
+            self.connection.commit()
+            return True
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
+            return False
+        
+    def create_librarian(self, username, first_name, last_name, email, password, phone_number):
+        try:
+            with self.connection.cursor() as cursor:
+                    cursor.execute(
+                    """
+                    INSERT INTO users (username, first_name, last_name, email, password, phone_number, membership_date, role_id)
+                    VALUES (%s, %s, %s, %s, %s, %s, NOW(),%s)
+                    """,
+                    (username, first_name, last_name, email, password, phone_number,2)
+                )
+            self.connection.commit()
+            return True
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
+            return False
 
     
     # TODO REMOVE

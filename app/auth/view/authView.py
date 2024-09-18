@@ -65,13 +65,7 @@ class AuthView:
                 break
             else:
                 print("Invalid Input !")
-        while True:
-            role = int(input("Role [1.Admin 2.Librarian 3.Member]: "))
-            if role in [1, 2, 3]:
-                break
-            else:
-                print("Please enter a valid number for role (1, 2, 3)")
-        self.controller.register(username, first_name, last_name, email, password, phone_number,role)
+        self.controller.register(username, first_name, last_name, email, password, phone_number)
 
     def normal_user(self):
         while True:
@@ -139,9 +133,9 @@ class AuthView:
                 print("===========================================")
                 subOp = int(input("Choose your option: "))
                 if subOp == 1:
-                    pass
+                    self.adminView.create_member()
                 elif subOp == 2:
-                    pass
+                    self.adminView.create_librarian()
                 elif subOp == 3:
                     self.adminView.create_book()
                 elif subOp == 0:

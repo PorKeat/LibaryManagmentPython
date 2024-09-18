@@ -1,4 +1,6 @@
 from app.admin.model.adminModel import AdminModel
+import re
+import hashlib
 
 class AdminController:
     def __init__(self):
@@ -135,3 +137,54 @@ class AdminController:
             return "Return Book Successfully !"
         else:
             return "Failed to return book !"
+
+    def create_member(self, username, first_name, last_name, email, password, phone_number):
+        encoded_password = password.encode()
+        hashPassword = hashlib.sha256()
+        hashPassword.update(encoded_password)
+        hashedPass = hashPassword.hexdigest()
+        result = self.admin_model.create_member(username, first_name, last_name, email, hashedPass, phone_number)
+        if result:
+            print("Member created successfully !")
+        else:
+            print("Failed to create member")
+            
+    def create_librarian(self, username, first_name, last_name, email, password, phone_number):
+        encoded_password = password.encode()
+        hashPassword = hashlib.sha256()
+        hashPassword.update(encoded_password)
+        hashedPass = hashPassword.hexdigest()
+        result = self.admin_model.create_librarian(username, first_name, last_name, email, hashedPass, phone_number)
+        if result:
+            print("Librarian created successfully !")
+        else:
+            print("Failed to create librarian")
+
+
+    def validateEmail(self,email):
+        if "@" not in email or "gmail" not in email or ".com" not in email:
+            return False
+        else:
+            return True
+    
+    def validatePass(self,password):
+        if len(password) <=5:
+            return False
+        if not re.search("[A-Z]",password):
+            return False
+        if not re.search("[a-z]",password):
+            return False
+        if not re.search("[0-9]",password):
+            return False
+        if not re.search("[!@#$%^&*]",password):
+            return False
+        return True
+    
+    def validatePhoneNumber(self,phone_number):
+        if re.search("[A-Z]",phone_number):
+            return False
+        if re.search("[a-z]",phone_number):
+            return False
+        if re.search("[!@#$%^&*]",phone_number):
+            return False
+        return True
