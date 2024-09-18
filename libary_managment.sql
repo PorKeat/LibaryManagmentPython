@@ -84,12 +84,6 @@ CREATE TABLE Reservations (
     user_id INT REFERENCES Users(user_id) ON DELETE SET NULL
 );
 
-CREATE TABLE ReservationItems (
-    reservation_item_id SERIAL PRIMARY KEY,
-    status VARCHAR(50),
-    quantity INT,
-    reservation_id INT REFERENCES Reservations(reservation_id) ON DELETE SET NULL
-);
 
 
 -- TODO Fines Table

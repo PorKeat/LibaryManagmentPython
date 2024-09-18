@@ -54,6 +54,13 @@ class AdminController:
             return "Removed Successfully"
         else:
             return "Fail to remove"
+        
+    def remove_borrow_book(self,id):
+        result = self.admin_model.remove_borrow_book(id)
+        if result:
+            return "Removed Successfully"
+        else:
+            return "Fail to remove"
             
     # TODO SEARCH  
     def search_user_by_id(self, user_id):

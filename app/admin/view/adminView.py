@@ -169,13 +169,19 @@ class AdminView:
        
     # TODO REMOVE
     def remove_book(self):
-        self.show_all_book()
+        self.list_book()
         id = input("Enter id: ")
         result = self.controller.remove_book(id)
         print(result)
         
     def remove_user(self):
-        self.show_all_user()
+        self.list_user()
         id = input("Enter id: ")
         result = self.controller.remove_user(id)
+        print(result)
+        
+    def remove_borrow_book(self):
+        self.list_borrow_book()
+        id = input("Enter id: ")
+        result = self.controller.remove_borrow_book(id)
         print(result)

@@ -1,5 +1,5 @@
 from db_connection import connect
-from datetime import datetime, timedelta
+from datetime import datetime
 
 class AdminModel:
     def __init__(self):
@@ -337,29 +337,53 @@ class AdminModel:
             with self.connection.cursor() as cursor:
                 cursor.execute(
                     """
-                    SELECT book_id
+                    SELECT book_id, due_date
                     FROM BorrowedBooks
                     WHERE borrow_id = %s
                     """,
-                    (borrow_id,))
-                book_id = cursor.fetchone()
-                if book_id is None:
-                    print("No borrowed book found with the given borrow_id !")
+                    (borrow_id,)
+                )
+                result = cursor.fetchone()
+                if result is None:
+                    print("No borrowed book found with the given borrow_id!")
                     return False
+                
+                book_id, due_date = result
+                
+                current_date = datetime.now().date()
+                overdue = current_date > due_date
+                
                 cursor.execute(
                     """
                     UPDATE BorrowedBooks
-                    SET return_date = NOW(), status = 'Returned'
+                    SET return_date = %s, status = %s
                     WHERE borrow_id = %s
                     """,
-                    (borrow_id,))
+                    (current_date, 'Returned' if not overdue else 'Returned (Overdue)', borrow_id)
+                )
+                
                 cursor.execute(
                     """
                     UPDATE Books
                     SET copies_available = copies_available + 1
                     WHERE book_id = %s
                     """,
-                    (book_id,))
+                    (book_id,)
+                )
+                
+                if overdue:
+                    fine_amount = (current_date - due_date).days * 1.00
+                    
+                    cursor.execute(
+                        """
+                        INSERT INTO Fines (fine_date, amount, status, borrow_id)
+                        VALUES (%s, %s, %s, %s)
+                        """,
+                        (current_date, fine_amount, 'Unpaid', borrow_id)
+                    )
+                    
+                    print(f"The book was returned late. A fine of ${fine_amount:.2f} has been recorded.")
+                
                 self.connection.commit()
                 return True
         except Exception as e:
@@ -393,6 +417,22 @@ class AdminModel:
                 cursor.execute(
                     """
                     DELETE FROM users WHERE user_id = %s      
+                    """,
+                    (id)
+                )
+            self.connection.commit()
+            return True
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
+            return False
+        
+    def remove_borrow_book(self,id):
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    DELETE FROM borrowedbooks WHERE borrow_id = %s      
                     """,
                     (id)
                 )

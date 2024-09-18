@@ -112,6 +112,7 @@ class AuthView:
                 print("2. List Book")
                 print("3. List Role")
                 print("4. List Genre")
+                print("5. List Borrow Book")
                 print("0. Back !")
                 print("=========================================")
                 subOp = int(input("Choose your option: "))
@@ -123,6 +124,8 @@ class AuthView:
                     self.adminView.list_role()
                 elif subOp == 4:
                     self.adminView.list_genre()
+                elif subOp == 5:
+                    self.adminView.list_borrow_book()
                 elif subOp == 0:
                     continue
                 else:
@@ -150,6 +153,7 @@ class AuthView:
                 print("1. Search User By ID")
                 print("2. Search User By Name")
                 print("3. Search Book By ID")
+                print("0. Back !")
                 print("===========================================")
                 subOp = int(input("Choose your option: "))
                 if subOp == 1:
@@ -168,6 +172,7 @@ class AuthView:
                 print("2. Update Book")
                 print("3. Upgrade Role")
                 print("4. Change Book Genre")
+                print("0. Back !")
                 print("===========================================")
                 subOp = int(input("Choose your option: "))
                 if subOp == 1:
@@ -186,12 +191,16 @@ class AuthView:
                 print("============| Remove Features |============")
                 print("1. Remove User")
                 print("2. Remove Book")
+                print("3. Remove Borrow Book")
+                print("0. Back !")
                 print("===========================================")
                 subOp = int(input("Choose your option: "))
                 if subOp == 1:
                     self.adminView.remove_user()
                 elif subOp == 2:
                     self.adminView.remove_book()
+                elif subOp == 3:
+                    self.adminView.remove_borrow_book()
                 elif subOp == 0:
                     continue
                 else:
