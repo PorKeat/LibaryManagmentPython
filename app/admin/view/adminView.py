@@ -161,10 +161,10 @@ class AdminView:
         result = self.controller.borrow_book(user_id ,book_id)
         print(result)
         
-    def return_book(self):
+    def return_book(self,user_id):
         self.list_borrow_book()
         book_id = int(input("Enter Book ID: "))
-        result = self.controller.return_book(book_id)
+        result = self.controller.return_book(book_id,user_id)
         print(result)
        
     # TODO REMOVE

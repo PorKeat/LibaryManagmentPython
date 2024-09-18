@@ -94,4 +94,5 @@ CREATE TABLE Fines (
     paid_date DATE,
     status VARCHAR(50),
     borrow_id INT REFERENCES BorrowedBooks(borrow_id) ON DELETE SET NULL
+    user_id INT REFERENCES Users(user_id) ON DELETE SET NULL
 );

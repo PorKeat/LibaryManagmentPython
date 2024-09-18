@@ -304,6 +304,19 @@ class AdminModel:
             with self.connection.cursor() as cursor:
                 cursor.execute(
                     """
+                    SELECT *
+                    FROM Fines
+                    WHERE user_id = %s AND status = 'Unpaid'
+                    """,
+                    (user_id,))
+                fine_count = cursor.fetchone()[0]
+                    
+                if fine_count > 0:
+                    print("User has unpaid fines and cannot borrow books.")
+                    return False
+                
+                cursor.execute(
+                    """
                     SELECT copies_available FROM Books
                     WHERE book_id = %s
                     """,
@@ -332,7 +345,7 @@ class AdminModel:
             self.connection.rollback()
             return False
 
-    def return_book(self, borrow_id):
+    def return_book(self, borrow_id, user_id):
         try:
             with self.connection.cursor() as cursor:
                 cursor.execute(
@@ -373,13 +386,12 @@ class AdminModel:
                 
                 if overdue:
                     fine_amount = (current_date - due_date).days * 1.00
-                    
                     cursor.execute(
                         """
-                        INSERT INTO Fines (fine_date, amount, status, borrow_id)
-                        VALUES (%s, %s, %s, %s)
+                        INSERT INTO Fines (fine_date, amount, status, borrow_id, user_id)
+                        VALUES (%s, %s, %s, %s, %s)
                         """,
-                        (current_date, fine_amount, 'Unpaid', borrow_id)
+                        (current_date, fine_amount, 'Unpaid', borrow_id, user_id)
                     )
                     
                     print(f"The book was returned late. A fine of ${fine_amount:.2f} has been recorded.")

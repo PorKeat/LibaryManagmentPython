@@ -211,7 +211,7 @@ class AuthView:
                 print("=======================================")
             elif op == 7:
                 print("============| Return Book |============")
-                self.adminView.return_book()
+                self.adminView.return_book(self.login_id[0])
                 print("=======================================")
             elif op == 0:
                 break
