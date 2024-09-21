@@ -18,7 +18,7 @@ class AuthController:
             else:
                 return 'member',user_id
         else:
-            return 'error'
+            return 'error',None
     
     def register(self, username, first_name, last_name, email, password, phone_number):
         encoded_password = password.encode()

@@ -26,7 +26,7 @@ class AuthModel:
             self.connection.rollback()
             return None
         
-    def register(self, username, first_name, last_name, email, password, phone_number,role):
+    def register(self, username, first_name, last_name, email, password, phone_number):
 
         try:
             with self.connection.cursor() as cursor:

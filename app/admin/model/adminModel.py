@@ -309,7 +309,8 @@ class AdminModel:
                     WHERE user_id = %s AND status = 'Unpaid'
                     """,
                     (user_id,))
-                fine_count = cursor.fetchone()[0]
+                result = cursor.fetchone()
+                fine_count = result[0] if result else 0
                     
                 if fine_count > 0:
                     print("User has unpaid fines and cannot borrow books.")

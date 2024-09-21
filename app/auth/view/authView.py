@@ -29,7 +29,6 @@ class AuthView:
             print("You are Admin")
             print("Successfully logged in")
             self.login_id.append(user_id)
-            print(self.login_id)
             self.admin_feature()
         elif status == 'librarian':
             print("You are Librarian")
@@ -39,6 +38,8 @@ class AuthView:
             print("You are Member")
             print("Successfully logged in")
             self.login_id.append(user_id)
+            print(self.login_id)
+            self.member_feature()
         else:
             print("Incorrect Email or Password!")
             
@@ -70,7 +71,7 @@ class AuthView:
     def normal_user(self):
         while True:
             print("============| Libary Management System |============")
-            print("1. List All Book")
+            print("1. View Book")
             print("2. Login To Join Us")
             print("3. Register To Become A Member")
             print("0. Exit !")
@@ -82,6 +83,27 @@ class AuthView:
                 self.login()
             elif op == 3:
                 self.register()
+            elif op == 0:
+                break
+            else:
+                print("Invalid Input !")
+                
+    
+    def member_feature(self):
+        while True:
+            print("============| Member Feature |============")
+            print("1. View Book")
+            print("2. Borrow Book")
+            print("3. Return Book")
+            print("0. Sign Out !")
+            print("=========================================")
+            op = int(input("Choose your option: "))
+            if op == 1:
+                self.memberView.list_book()
+            elif op == 2:
+                self.memberView.borrow_book(self.login_id[0])
+            elif op == 3:
+                self.memberView.return_book(self.login_id[0])
             elif op == 0:
                 break
             else:
