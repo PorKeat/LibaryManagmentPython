@@ -1,7 +1,7 @@
 from app.auth.controller.authController import AuthController
 from app.admin.view.adminView import AdminView
 from app.member.view.memberView import MemberView
-import getpass
+from app.librarian.view.librarianView import LibrarianView
 import pwinput
 
 class AuthView:
@@ -9,6 +9,7 @@ class AuthView:
         self.controller = AuthController()
         self.adminView = AdminView()
         self.memberView = MemberView()
+        self.librarianView = LibrarianView()
         self.login_id = []
 
     def login(self):
@@ -34,6 +35,7 @@ class AuthView:
             print("You are Librarian")
             print("Successfully logged in")
             self.login_id.append(user_id)
+            self.librarian_feature()
         elif status == 'member':
             print("You are Member")
             print("Successfully logged in")
@@ -95,6 +97,7 @@ class AuthView:
             print("1. View Book")
             print("2. Borrow Book")
             print("3. Return Book")
+            print("4. Pay Fines")
             print("0. Sign Out !")
             print("=========================================")
             op = int(input("Choose your option: "))
@@ -104,7 +107,82 @@ class AuthView:
                 self.memberView.borrow_book(self.login_id[0])
             elif op == 3:
                 self.memberView.return_book(self.login_id[0])
+            elif op == 4:
+                self.memberView.pay_back_fine(self.login_id[0])
             elif op == 0:
+                self.login_id.clear()
+                break
+            else:
+                print("Invalid Input !")
+                
+    def librarian_feature(self):
+        while True:
+            print("============| Librarian Feature |============")
+            print("1. List Feature")
+            print("2. Add Book")
+            print("3. Search Feature")  
+            print("4. Update Book")
+            print("5. Change Book Genre")
+            print("6. Remove Feature")
+            print("0. Sign Out !")
+            print("============================================")
+            op = int(input("Choose your option: "))
+            if op==1:
+                print("============| List Features |============")
+                print("1. List Book")
+                print("2. List Borrow Book")
+                print("0. Back !")
+                print("=========================================")
+                subOp = int(input("Choose your option: "))
+                if subOp == 1:
+                    self.librarianView.list_book()
+                elif subOp == 2:
+                    self.librarianView.list_borrow_book()
+                elif subOp == 0:
+                    continue
+                else:
+                    print("Invalid Input !")
+            elif op == 2:
+                self.librarianView.create_book()
+            elif op == 3:
+                print("============| Search Features |============")
+                print("1. Search User By ID")
+                print("2. Search User By Name")
+                print("3. Search Book By ID")
+                print("0. Back !")
+                print("===========================================")
+                subOp = int(input("Choose your option: "))
+                if subOp == 1:
+                    self.librarianView.search_user_by_id()
+                elif subOp == 2:
+                    self.librarianView.search_user_by_name()
+                elif subOp == 3:
+                    self.librarianView.search_book_by_id()
+                elif subOp == 0:
+                    continue
+                else:
+                    print("Invalid Input !")
+            elif op == 4:
+                self.librarianView.update_book_data()
+            elif op == 5:
+                self.librarianView.change_genre()
+            elif op == 6:
+                print("============| Remove Features |============")
+                print("1. Remove Book")
+                print("2. Remove Borrow Book")
+                print("0. Back !")
+                print("===========================================")
+                subOp = int(input("Choose your option: "))
+                if subOp == 1:
+                    self.librarianView.remove_book()
+                elif subOp == 2:
+                    self.librarianView.remove_borrow_book()
+                elif subOp == 0:
+                    continue
+                else:
+                    print("Invalid Input !")
+            elif op == 0:
+                self.login_id.clear()
                 break
             else:
                 print("Invalid Input !")
@@ -117,8 +195,6 @@ class AuthView:
             print("3. Search Features")
             print("4. Update Features")
             print("5. Remove Features")
-            print("6. Borrow Book")
-            print("7. Return Book")
             print("0. Sign Out !")
             print("=========================================")
             op = int(input("Choose your option: "))
@@ -221,15 +297,8 @@ class AuthView:
                     continue
                 else:
                     print("Invalid Input !")
-            elif op == 6:
-                print("============| Borrow Book |============")
-                self.adminView.borrow_book(self.login_id[0])
-                print("=======================================")
-            elif op == 7:
-                print("============| Return Book |============")
-                self.adminView.return_book(self.login_id[0])
-                print("=======================================")
             elif op == 0:
+                self.login_id.clear()
                 break
             else:
                 print("Invalid Input !")

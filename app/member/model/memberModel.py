@@ -11,7 +11,7 @@ class MemberModel:
             with self.connection.cursor() as cursor:
                 cursor.execute(
                     """
-                    SELECT Books.book_id, Books.title, Books.author_name, Genre.genre_name
+                    SELECT Books.book_id, Books.title, Books.author_name, Genre.genre_name, Books.copies_available
                     FROM Books
                     JOIN Genre ON Books.genre_id = Genre.genre_id;
                     """
@@ -22,7 +22,7 @@ class MemberModel:
             print(f"Error: {e}")
             self.connection.rollback()
             
-    def list_borrow_book(self):
+    def list_borrow_book(self,login_id):
         try:
             with self.connection.cursor() as cursor:
                 cursor.execute(
@@ -31,7 +31,26 @@ class MemberModel:
                     FROM BorrowedBooks
                     JOIN Users ON BorrowedBooks.user_id = Users.user_id
 					JOIN Books ON BorrowedBooks.book_id = Books.book_id
+                    WHERE Users.user_id = %s
+                    """,
+                    (login_id,)
+                )
+                results = cursor.fetchall()
+                return results
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
+    
+    def list_fines(self,login_id):
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(
                     """
+                    SELECT fine_id, amount, fine_date, status
+                    FROM Fines
+                    WHERE user_id = %s AND status = 'Unpaid'
+                    """,
+                    (login_id,)
                 )
                 results = cursor.fetchall()
                 return results
@@ -91,7 +110,7 @@ class MemberModel:
             with self.connection.cursor() as cursor:
                 cursor.execute(
                     """
-                    SELECT book_id, due_date, status
+                    SELECT book_id, due_date, status,user_id
                     FROM BorrowedBooks
                     WHERE borrow_id = %s
                     """,
@@ -102,7 +121,11 @@ class MemberModel:
                     print("No borrowed book found with the given borrow_id!")
                     return False
                 
-                book_id, due_date,status = result
+                book_id, due_date, status, user_Id = result
+                
+                if user_Id != user_id:
+                    print("Not Found")
+                    return False
                 
                 if status == 'Returned' or status == 'Returned (Overdue)':
                     print("This book has already been returned.")
@@ -142,6 +165,46 @@ class MemberModel:
                     print(f"The book was returned late. A fine of ${fine_amount:.2f} has been recorded.")
                 
                 self.connection.commit()
+                return True
+        except Exception as e:
+            print(f"Error: {e}")
+            self.connection.rollback()
+            return False
+    
+    def pay_back_fine(self, fine_id,user_id):
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT amount, user_id, status
+                    FROM Fines
+                    WHERE fine_id = %s
+                    """,
+                    (fine_id,)
+                )
+                result = cursor.fetchone()
+                if result is None:
+                    print("No fine found with the given fine_id!")
+                    return False
+                
+                amount, user_Id, status = result
+                if user_Id != user_id:
+                    print("Not Found !")
+                    return False
+                
+                if status == 'Paid':
+                    print("This fine has already been paid.")
+                    return False
+                cursor.execute(
+                    """
+                    UPDATE Fines
+                    SET status = 'Paid'
+                    WHERE fine_id = %s
+                    """,
+                    (fine_id,)
+                )
+                self.connection.commit()
+                print(f"The fine of ${amount:.2f} has been successfully paid back.")
                 return True
         except Exception as e:
             print(f"Error: {e}")

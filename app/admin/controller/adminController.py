@@ -123,20 +123,6 @@ class AdminController:
             return "Add New Book Successfully !"
         else:
             return "Failed to add new book !"
-    
-    def borrow_book(self,user_id ,book_id):
-        result = self.admin_model.borrow_book(user_id ,book_id)
-        if result:
-            return "Borrow Book Successfully !"
-        else:
-            return "Failed to borrow book !"
-        
-    def return_book(self,book_id,user_id):
-        result = self.admin_model.return_book(book_id,user_id)
-        if result:
-            return "Return Book Successfully !"
-        else:
-            return "Failed to return book !"
 
     def create_member(self, username, first_name, last_name, email, password, phone_number):
         encoded_password = password.encode()

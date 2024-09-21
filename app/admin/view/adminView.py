@@ -108,8 +108,8 @@ class AdminView:
     def update_book_data(self):
         id = input("Enter book ID: ")
         check = self.controller.search_book_by_id(id)
-        print(check)
         if check:
+            self.table_book(check)
             title = input("Enter Title: ")
             author_name = input("Enter Author: ")
             publisher_name = input("Enter Publisher: ")
@@ -124,8 +124,8 @@ class AdminView:
         self.list_role()
         id = input("Enter user ID: ")
         check = self.controller.search_user_by_id(id)
-        print(check)
         if check:
+            self.table_user(check)
             role = int(input("Enter role:"))
             result = self.controller.upgrade_role(role,id)
             print(result)
@@ -136,8 +136,8 @@ class AdminView:
         self.list_genre()
         id = input("Enter user ID: ")
         check = self.controller.search_book_by_id(id)
-        print(check)
         if check:
+            self.table_book(check)
             genre = int(input("Enter role:"))
             result = self.controller.change_genre(genre,id)
             print(result)
@@ -154,18 +154,6 @@ class AdminView:
         year = int(input("Enter year: "))
         genre_id = int(input("Enter genre id:"))
         result = self.controller.create_book(title,author,publisher,copies,year,genre_id)
-        print(result)
-        
-    def borrow_book(self,user_id):
-        self.list_book()
-        book_id = int(input("Enter Book ID: "))
-        result = self.controller.borrow_book(user_id ,book_id)
-        print(result)
-        
-    def return_book(self,user_id):
-        self.list_borrow_book()
-        book_id = int(input("Enter Book ID: "))
-        result = self.controller.return_book(book_id,user_id)
         print(result)
         
     def create_member(self):
