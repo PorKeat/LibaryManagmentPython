@@ -1,21 +1,34 @@
 from app.librarian.controller.librarianController import LibrarianController
 import pwinput
+from prettytable import PrettyTable,SINGLE_BORDER
 
 class LibrarianView:
     def __init__(self):
         self.controller = LibrarianController()
-        
-    def table_data(self,id,data):
-        print(f"{id}\t{data}")
     
     def table_user(self,user):
-        print(f"User ID: {user[0]}, Username: {user[1]}, Role: {user[2]}")
-        
+        table = PrettyTable()
+        table.set_style(SINGLE_BORDER)
+        table.field_names = ["ID","Username","Role"]
+        for user in user:
+            table.add_row(user)
+        print(table)
+
     def table_book(self,book):
-        print(f"Book ID: {book[0]}, Title: {book[1]}, Author: {book[2]}, Genre: {book[3]}, Copies: {book[4]}")
-        
+        table = PrettyTable()
+        table.set_style(SINGLE_BORDER)
+        table.field_names = ["ID", "Title", "Author", "Genre", "Copies"]
+        for book in book:
+            table.add_row(book)
+        print(table)
+    
     def table_borrow_book(self,book):
-        print(f"Borrow ID: {book[0]}, Username: {book[1]}, Title: {book[2]}, Borrow Date: {book[3]}, Due Date: {book[4]}, Status: {book[5]}")
+        table = PrettyTable()
+        table.set_style(SINGLE_BORDER)
+        table.field_names = ["ID", "Username", "Title", "Borrow Date", "Due Date", "Status"]
+        for borrow in book:
+            table.add_row(borrow)
+        print(table)
         
     def not_found(self):
         print("Not found !")
@@ -23,25 +36,26 @@ class LibrarianView:
     def list_book(self):
         results = self.controller.list_book()
         if results:
-            for book in results:
-                self.table_book(book)
+            self.table_book(results)
         else:
             self.not_found()
     
     def list_borrow_book(self):
         results = self.controller.list_borrrow_book()
         if results:
-            for borrow in results:
-                self.table_borrow_book(borrow)
+            self.table_borrow_book(results)
         else:
             self.not_found()
             
     def list_genre(self):
         results = self.controller.list_genre()
-        print("ID\tGenre")
+        table = PrettyTable()
+        table.set_style(SINGLE_BORDER)
+        table.field_names = ["ID", "Genre"]
         if results:
-            for id,genre in results:
-                self.table_data(id,genre)
+            for id, genre in results:
+                table.add_row([id, genre])
+            print(table)
         else:
             self.not_found()
     
@@ -50,7 +64,7 @@ class LibrarianView:
         id = input("Search ID: ")
         result = self.controller.search_user_by_id(id)
         if result:
-            self.table_user(result)
+            self.table_user([result])
         else:
             self.not_found()
             
@@ -58,7 +72,7 @@ class LibrarianView:
         id = input("Search ID: ")
         result = self.controller.search_book_by_id(id)
         if result:
-            self.table_book(result)
+            self.table_book([result])
         else:
             self.not_found()
     
@@ -66,8 +80,7 @@ class LibrarianView:
         name = input("Search Name: ")
         results = self.controller.search_user_by_name(name)
         if results:
-            for result in results:
-                self.table_user(result)
+            self.table_user(results)
         else:
             self.not_found()
 

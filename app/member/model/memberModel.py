@@ -48,7 +48,7 @@ class MemberModel:
                     """
                     SELECT fine_id, amount, fine_date, status
                     FROM Fines
-                    WHERE user_id = %s AND status = 'Unpaid'
+                    WHERE user_id = %s
                     """,
                     (login_id,)
                 )

@@ -53,8 +53,6 @@ CREATE TABLE Books (
 );
 
 
-
-
 -- TODO Publisher Table
 CREATE TABLE Publishers (
     publisher_id SERIAL PRIMARY KEY,
@@ -73,17 +71,6 @@ CREATE TABLE BorrowedBooks (
     return_date DATE,
     status VARCHAR(50)
 );
-
-
-
--- TODO Reservations Table
-CREATE TABLE Reservations (
-    reservation_id SERIAL PRIMARY KEY,
-    reservation_date DATE,
-    status VARCHAR(50),
-    user_id INT REFERENCES Users(user_id) ON DELETE SET NULL
-);
-
 
 
 -- TODO Fines Table

@@ -1,17 +1,41 @@
 from app.member.controller.memberController import MemberController
+from prettytable import PrettyTable,SINGLE_BORDER
 
 class MemberView:
     def __init__(self):
         self.controller = MemberController()
         
     def table_book(self,book):
-        print(f"Book ID: {book[0]}, Title: {book[1]}, Author: {book[2]}, Genre: {book[3]}, Copies: {book[4]}")
-    
-    def table_fines(self,fines):
-        print(f"Fine ID: {fines[0]}, Amount: {fines[1]}, Date: {fines[2]}, Status: {fines[3]}")
+        table = PrettyTable()
+        table.set_style(SINGLE_BORDER)
+        table.field_names = ["Book ID", "Title", "Author", "Genre", "Copies"]
+        for book in book:
+            table.add_row(book)
+        print(table)
     
     def table_borrow_book(self,book):
-        print(f"Borrow ID: {book[0]}, Username: {book[1]}, Title: {book[2]}, Borrow Date: {book[3]}, Due Date: {book[4]}, Status: {book[5]}")
+        table = PrettyTable()
+        table.set_style(SINGLE_BORDER)
+        table.field_names = ["Borrow ID", "Username", "Title", "Borrow Date", "Due Date", "Status"]
+        for borrow in book:
+            table.add_row(borrow)
+        print(table)
+    
+    def table_fines(self,fines):
+        table = PrettyTable()
+        table.set_style(SINGLE_BORDER)
+        table.field_names = ["ID","Amount","Date","Status"]
+        for fine in fines:
+            table.add_row(fine)
+        print(table)
+    
+    def table_borrow_book(self,book):
+        table = PrettyTable()
+        table.set_style(SINGLE_BORDER)
+        table.field_names = ["ID", "Username", "Title", "Borrow Date", "Due Date", "Status"]
+        for borrow in book:
+            table.add_row(borrow)
+        print(table)
 
     def not_found(self):
         print("Not found !")
@@ -19,24 +43,21 @@ class MemberView:
     def list_book(self):
         results = self.controller.list_book()
         if results:
-            for book in results:
-                self.table_book(book)
+            self.table_book(results)
         else:
             self.not_found()
             
     def list_borrow_book(self,login_id):
         results = self.controller.list_borrrow_book(login_id)
         if results:
-            for borrow in results:
-                self.table_borrow_book(borrow)
+            self.table_borrow_book(results)
         else:
             self.not_found()
             
     def list_fines(self,login_id):
         results = self.controller.list_fines(login_id)
         if results:
-            for fine in results:
-                self.table_fines(fine)
+            self.table_fines(results)
         else:
             self.not_found()
 
