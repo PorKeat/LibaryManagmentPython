@@ -52,15 +52,6 @@ CREATE TABLE Books (
     genre_id INT REFERENCES Genre(genre_id) ON DELETE SET NULL
 );
 
-
--- TODO Publisher Table
-CREATE TABLE Publishers (
-    publisher_id SERIAL PRIMARY KEY,
-    publisher_name VARCHAR(100),
-    address VARCHAR(255),
-    phone_number VARCHAR(15)
-);
-
 -- TODO Borrow Table
 CREATE TABLE BorrowedBooks (
     borrow_id SERIAL PRIMARY KEY,
