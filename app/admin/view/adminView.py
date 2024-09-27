@@ -154,7 +154,7 @@ class AdminView:
         check = self.controller.search_book_by_id(id)
         if check:
             self.table_book([check])
-            genre = int(input("Enter role:"))
+            genre = int(input("Enter Genre ID:"))
             result = self.controller.change_genre(genre,id)
             print(result)
         else:

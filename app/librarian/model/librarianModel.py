@@ -105,7 +105,7 @@ class LibrarianModel:
                     (id,)
                 )
                 result = cursor.fetchone()
-                return [result]
+                return result
         except Exception as e:
             print(f"Error: {e}")
             self.connection.rollback()
