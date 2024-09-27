@@ -14,11 +14,11 @@ class LibrarianView:
             table.add_row(user)
         print(table)
 
-    def table_book(self,book):
+    def table_book(self,books):
         table = PrettyTable()
         table.set_style(SINGLE_BORDER)
         table.field_names = ["ID", "Title", "Author", "Genre", "Copies"]
-        for book in book:
+        for book in books:
             table.add_row(book)
         print(table)
     
