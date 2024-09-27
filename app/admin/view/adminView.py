@@ -125,7 +125,7 @@ class AdminView:
         id = input("Enter book ID: ")
         check = self.controller.search_book_by_id(id)
         if check:
-            self.table_book(check)
+            self.table_book([check])
             title = input("Enter Title: ")
             author_name = input("Enter Author: ")
             publisher_name = input("Enter Publisher: ")
@@ -141,7 +141,7 @@ class AdminView:
         id = input("Enter user ID: ")
         check = self.controller.search_user_by_id(id)
         if check:
-            self.table_user(check)
+            self.table_user([check])
             role = int(input("Enter role:"))
             result = self.controller.upgrade_role(role,id)
             print(result)
@@ -153,7 +153,7 @@ class AdminView:
         id = input("Enter user ID: ")
         check = self.controller.search_book_by_id(id)
         if check:
-            self.table_book(check)
+            self.table_book([check])
             genre = int(input("Enter role:"))
             result = self.controller.change_genre(genre,id)
             print(result)
