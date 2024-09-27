@@ -8,7 +8,7 @@ class MemberView:
     def table_book(self,book):
         table = PrettyTable()
         table.set_style(SINGLE_BORDER)
-        table.field_names = ["Book ID", "Title", "Author", "Genre", "Copies"]
+        table.field_names = ["ID", "Title", "Author", "Genre", "Copies"]
         for book in book:
             table.add_row(book)
         print(table)
@@ -16,7 +16,7 @@ class MemberView:
     def table_borrow_book(self,book):
         table = PrettyTable()
         table.set_style(SINGLE_BORDER)
-        table.field_names = ["Borrow ID", "Username", "Title", "Borrow Date", "Due Date", "Status"]
+        table.field_names = ["ID", "Username", "Title", "Borrow Date", "Due Date","Return Date", "Status"]
         for borrow in book:
             table.add_row(borrow)
         print(table)
@@ -29,13 +29,6 @@ class MemberView:
             table.add_row(fine)
         print(table)
     
-    def table_borrow_book(self,book):
-        table = PrettyTable()
-        table.set_style(SINGLE_BORDER)
-        table.field_names = ["ID", "Username", "Title", "Borrow Date", "Due Date", "Status"]
-        for borrow in book:
-            table.add_row(borrow)
-        print(table)
 
     def not_found(self):
         print("Not found !")

@@ -102,7 +102,7 @@ class LibrarianView:
         id = input("Enter book ID: ")
         check = self.controller.search_book_by_id(id)
         if check:
-            self.table_book(check)
+            self.table_book([check])
             title = input("Enter Title: ")
             author_name = input("Enter Author: ")
             publisher_name = input("Enter Publisher: ")
@@ -115,10 +115,10 @@ class LibrarianView:
         
     def change_genre(self):
         self.list_genre()
-        id = input("Enter user ID: ")
+        id = input("Enter Book ID: ")
         check = self.controller.search_book_by_id(id)
         if check:
-            self.table_book(check)
+            self.table_book([check])
             genre = int(input("Enter role:"))
             result = self.controller.change_genre(genre,id)
             print(result)

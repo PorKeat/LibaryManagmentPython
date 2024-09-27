@@ -27,7 +27,7 @@ class MemberModel:
             with self.connection.cursor() as cursor:
                 cursor.execute(
                     """
-                    SELECT BorrowedBooks.borrow_id,Users.username,books.title, BorrowedBooks.borrow_date, BorrowedBooks.due_date, BorrowedBooks.status
+                    SELECT BorrowedBooks.borrow_id,Users.username,books.title, BorrowedBooks.borrow_date, BorrowedBooks.due_date,BorrowedBooks.return_date, BorrowedBooks.status
                     FROM BorrowedBooks
                     JOIN Users ON BorrowedBooks.user_id = Users.user_id
 					JOIN Books ON BorrowedBooks.book_id = Books.book_id
