@@ -11,7 +11,7 @@ class MemberModel:
             with self.connection.cursor() as cursor:
                 cursor.execute(
                     """
-                    SELECT Books.book_id, Books.title, Books.author_name, Genre.genre_name, Books.copies_available
+                    SELECT Books.book_id, Books.title, Books.author_name, Genre.genre_name,Books.publisher_name,Books.year_of_publisher, Books.copies_available
                     FROM Books
                     JOIN Genre ON Books.genre_id = Genre.genre_id;
                     """

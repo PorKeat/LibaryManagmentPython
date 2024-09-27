@@ -18,7 +18,7 @@ class AdminView:
     def table_book(self,book):
         table = PrettyTable()
         table.set_style(SINGLE_BORDER)
-        table.field_names = ["ID", "Title", "Author", "Genre", "Copies"]
+        table.field_names = ["ID", "Title", "Author", "Genre","Publisher","Year", "Copies"]
         for book in book:
             table.add_row(book)
         print(table)
